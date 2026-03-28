@@ -1,0 +1,720 @@
+# python train_all_adults_safety2.py
+Using device: cuda
+==================================================
+
+==================================================
+--- Starting Training for Patient: adult#001 ---
+==================================================
+Episode 50/200 | Reward: -31174.20
+Episode 100/200 | Reward: -2.44
+Episode 150/200 | Reward: -112.04
+Episode 200/200 | Reward: -53936.12
+--- Training Finished for adult#001 ---
+Saved trained model to ./models/sac/actor_adult-001.pth
+
+--- Starting Evaluation for adult#001 ---
+
+--- Evaluation Results ---
+Mean Glucose: 81.99 mg/dL
+Time in Range (70-180 mg/dL): 50.17%
+Time Hypo (<70 mg/dL): 49.83%
+Time Hyper (>180 mg/dL): 0.00%
+Saved evaluation plot to ./results/sac/evaluation_plot_adult-001.png
+
+==================================================
+--- Starting Training for Patient: adult#002 ---
+==================================================
+Episode 50/200 | Reward: 619.84
+Episode 100/200 | Reward: 1619.80
+Episode 150/200 | Reward: -423.81
+Episode 200/200 | Reward: 303.12
+--- Training Finished for adult#002 ---
+Saved trained model to ./models/sac/actor_adult-002.pth
+
+--- Starting Evaluation for adult#002 ---
+
+--- Evaluation Results ---
+Mean Glucose: 85.34 mg/dL
+Time in Range (70-180 mg/dL): 70.24%
+Time Hypo (<70 mg/dL): 29.76%
+Time Hyper (>180 mg/dL): 0.00%
+Saved evaluation plot to ./results/sac/evaluation_plot_adult-002.png
+
+==================================================
+--- Starting Training for Patient: adult#003 ---
+==================================================
+Episode 50/200 | Reward: -11145.02
+Episode 100/200 | Reward: -56625.84
+Episode 150/200 | Reward: -9573.63
+Episode 200/200 | Reward: -3445.87
+--- Training Finished for adult#003 ---
+Saved trained model to ./models/sac/actor_adult-003.pth
+
+--- Starting Evaluation for adult#003 ---
+
+--- Evaluation Results ---
+Mean Glucose: 131.83 mg/dL
+Time in Range (70-180 mg/dL): 100.00%
+Time Hypo (<70 mg/dL): 0.00%
+Time Hyper (>180 mg/dL): 0.00%
+Saved evaluation plot to ./results/sac/evaluation_plot_adult-003.png
+
+==================================================
+--- Starting Training for Patient: adult#004 ---
+==================================================
+Episode 50/200 | Reward: -2691.83
+Episode 100/200 | Reward: -40889.10
+Episode 150/200 | Reward: -2127.47
+Episode 200/200 | Reward: -3358.83
+--- Training Finished for adult#004 ---
+Saved trained model to ./models/sac/actor_adult-004.pth
+
+--- Starting Evaluation for adult#004 ---
+
+--- Evaluation Results ---
+Mean Glucose: 85.17 mg/dL
+Time in Range (70-180 mg/dL): 53.29%
+Time Hypo (<70 mg/dL): 46.71%
+Time Hyper (>180 mg/dL): 0.00%
+Saved evaluation plot to ./results/sac/evaluation_plot_adult-004.png
+
+==================================================
+--- Starting Training for Patient: adult#005 ---
+==================================================
+Episode 50/200 | Reward: -54661.59
+Episode 100/200 | Reward: -61612.32
+Episode 150/200 | Reward: -2468.19
+Episode 200/200 | Reward: -23070.59
+--- Training Finished for adult#005 ---
+Saved trained model to ./models/sac/actor_adult-005.pth
+
+--- Starting Evaluation for adult#005 ---
+
+--- Evaluation Results ---
+Mean Glucose: 179.78 mg/dL
+Time in Range (70-180 mg/dL): 51.21%
+Time Hypo (<70 mg/dL): 0.00%
+Time Hyper (>180 mg/dL): 48.79%
+Saved evaluation plot to ./results/sac/evaluation_plot_adult-005.png
+
+==================================================
+--- Starting Training for Patient: adult#006 ---
+==================================================
+Episode 50/200 | Reward: -67796.45
+Episode 100/200 | Reward: -18213.62
+Episode 150/200 | Reward: -3799.68
+Episode 200/200 | Reward: -377.40
+--- Training Finished for adult#006 ---
+Saved trained model to ./models/sac/actor_adult-006.pth
+
+--- Starting Evaluation for adult#006 ---
+
+--- Evaluation Results ---
+Mean Glucose: 245.17 mg/dL
+Time in Range (70-180 mg/dL): 45.67%
+Time Hypo (<70 mg/dL): 0.00%
+Time Hyper (>180 mg/dL): 54.33%
+Saved evaluation plot to ./results/sac/evaluation_plot_adult-006.png
+
+==================================================
+--- Starting Training for Patient: adult#007 ---
+==================================================
+Episode 50/200 | Reward: -127409.33
+Episode 100/200 | Reward: -34195.12
+Episode 150/200 | Reward: -22389.73
+Episode 200/200 | Reward: -35485.94
+--- Training Finished for adult#007 ---
+Saved trained model to ./models/sac/actor_adult-007.pth
+
+--- Starting Evaluation for adult#007 ---
+
+--- Evaluation Results ---
+Mean Glucose: 94.16 mg/dL
+Time in Range (70-180 mg/dL): 60.71%
+Time Hypo (<70 mg/dL): 39.29%
+Time Hyper (>180 mg/dL): 0.00%
+Saved evaluation plot to ./results/sac/evaluation_plot_adult-007.png
+
+==================================================
+--- Starting Training for Patient: adult#008 ---
+==================================================
+Episode 50/200 | Reward: -19079.08
+Episode 100/200 | Reward: -21123.09
+Episode 150/200 | Reward: -24822.92
+Episode 200/200 | Reward: -26150.01
+--- Training Finished for adult#008 ---
+Saved trained model to ./models/sac/actor_adult-008.pth
+
+--- Starting Evaluation for adult#008 ---
+
+--- Evaluation Results ---
+Mean Glucose: 103.86 mg/dL
+Time in Range (70-180 mg/dL): 64.96%
+Time Hypo (<70 mg/dL): 35.04%
+Time Hyper (>180 mg/dL): 0.00%
+Saved evaluation plot to ./results/sac/evaluation_plot_adult-008.png
+
+==================================================
+--- Starting Training for Patient: adult#009 ---
+==================================================
+Episode 50/200 | Reward: -951.74
+Episode 100/200 | Reward: -255.80
+Episode 150/200 | Reward: -375.50
+Episode 200/200 | Reward: -695.04
+--- Training Finished for adult#009 ---
+Saved trained model to ./models/sac/actor_adult-009.pth
+
+--- Starting Evaluation for adult#009 ---
+
+--- Evaluation Results ---
+Mean Glucose: 151.75 mg/dL
+Time in Range (70-180 mg/dL): 97.58%
+Time Hypo (<70 mg/dL): 0.00%
+Time Hyper (>180 mg/dL): 2.42%
+Saved evaluation plot to ./results/sac/evaluation_plot_adult-009.png
+
+==================================================
+--- Starting Training for Patient: adult#010 ---
+==================================================
+Episode 50/200 | Reward: -4448.81
+Episode 100/200 | Reward: -4802.56
+Episode 150/200 | Reward: -2169.51
+Episode 200/200 | Reward: -2938.48
+--- Training Finished for adult#010 ---
+Saved trained model to ./models/sac/actor_adult-010.pth
+
+--- Starting Evaluation for adult#010 ---
+
+--- Evaluation Results ---
+Mean Glucose: 100.37 mg/dL
+Time in Range (70-180 mg/dL): 65.74%
+Time Hypo (<70 mg/dL): 34.26%
+Time Hyper (>180 mg/dL): 0.00%
+Saved evaluation plot to ./results/sac/evaluation_plot_adult-010.png
+
+========================================================
+---           OVERALL PERFORMANCE SUMMARY           ---
+========================================================
+           Mean Glucose (mg/dL)  ...  Time Hyper (%)
+Patient                          ...                
+adult#001             81.994530  ...        0.000000
+adult#002             85.337318  ...        0.000000
+adult#003            131.826050  ...        0.000000
+adult#004             85.165199  ...        0.000000
+adult#005            179.776489  ...       48.788927
+adult#006            245.171005  ...       54.325260
+adult#007             94.159706  ...        0.000000
+adult#008            103.864433  ...        0.000000
+adult#009            151.751678  ...        2.422145
+adult#010            100.367928  ...        0.000000
+
+[10 rows x 4 columns]
+
+--- Average Performance Across All Patients ---
+Mean Glucose (mg/dL)    125.941444
+Time in Range (%)        65.958782
+Time Hypo (%)            23.487584
+Time Hyper (%)           10.553633
+/kaggle/working/using_gymnasium# 
+
+----------------------------------------------------------------------
+/kaggle/working/Hruthik/using_gymnasium# python train_all_adults_safety3_dp.py
+
+==================================================
+Starting parallel training for 10 patients on 2 GPUs...
+==================================================
+Process for adult#001 starting on device: cuda:0
+Process for adult#002 starting on device: cuda:1
+Process for adult#003 starting on device: cuda:0
+Process for adult#004 starting on device: cuda:1
+--- Starting Training for Patient: adult#003 on cuda:0 ---
+--- Starting Training for Patient: adult#001 on cuda:0 ---
+--- Starting Training for Patient: adult#002 on cuda:1 ---
+--- Starting Training for Patient: adult#004 on cuda:1 ---
+[adult#003 on cuda:0] Episode 50/200 | Reward: -11417.90
+[adult#004 on cuda:1] Episode 50/200 | Reward: -28109.00
+[adult#001 on cuda:0] Episode 50/200 | Reward: -100436.95
+[adult#003 on cuda:0] Episode 100/200 | Reward: 90.66
+[adult#002 on cuda:1] Episode 50/200 | Reward: -12981.39
+[adult#004 on cuda:1] Episode 100/200 | Reward: -47961.41
+[adult#001 on cuda:0] Episode 100/200 | Reward: 485.41
+[adult#003 on cuda:0] Episode 150/200 | Reward: -515.18
+[adult#002 on cuda:1] Episode 100/200 | Reward: 650.28
+[adult#004 on cuda:1] Episode 150/200 | Reward: -37641.88
+[adult#001 on cuda:0] Episode 150/200 | Reward: -1187.71
+[adult#003 on cuda:0] Episode 200/200 | Reward: -1348.35
+--- Training Finished for adult#003 ---
+Saved trained model to ./models/sac_personalized_exp/actor_adult-003.pth
+Saved learning curve plot to ./results/sac_personalized_exp/learning_curve_adult-003.png
+
+--- Starting Evaluation for adult#003 ---
+Saved evaluation plot to ./results/sac_personalized_exp/evaluation_plot_adult-003.png
+Process for adult#005 starting on device: cuda:0
+--- Starting Training for Patient: adult#005 on cuda:0 ---
+[adult#002 on cuda:1] Episode 150/200 | Reward: 835.06
+[adult#005 on cuda:0] Episode 50/200 | Reward: -27769.71
+[adult#004 on cuda:1] Episode 200/200 | Reward: -64340.14
+--- Training Finished for adult#004 ---
+Saved trained model to ./models/sac_personalized_exp/actor_adult-004.pth
+Saved learning curve plot to ./results/sac_personalized_exp/learning_curve_adult-004.png
+
+--- Starting Evaluation for adult#004 ---
+Saved evaluation plot to ./results/sac_personalized_exp/evaluation_plot_adult-004.png
+Process for adult#006 starting on device: cuda:1
+--- Starting Training for Patient: adult#006 on cuda:1 ---
+[adult#001 on cuda:0] Episode 200/200 | Reward: -1049.92
+--- Training Finished for adult#001 ---
+Saved trained model to ./models/sac_personalized_exp/actor_adult-001.pth
+Saved learning curve plot to ./results/sac_personalized_exp/learning_curve_adult-001.png
+
+--- Starting Evaluation for adult#001 ---
+Saved evaluation plot to ./results/sac_personalized_exp/evaluation_plot_adult-001.png
+Process for adult#007 starting on device: cuda:0
+--- Starting Training for Patient: adult#007 on cuda:0 ---
+[adult#006 on cuda:1] Episode 50/200 | Reward: -17970.29
+[adult#007 on cuda:0] Episode 50/200 | Reward: -29507.55
+[adult#005 on cuda:0] Episode 100/200 | Reward: 494.05
+[adult#002 on cuda:1] Episode 200/200 | Reward: 748.07
+--- Training Finished for adult#002 ---
+Saved trained model to ./models/sac_personalized_exp/actor_adult-002.pth
+Saved learning curve plot to ./results/sac_personalized_exp/learning_curve_adult-002.png
+
+--- Starting Evaluation for adult#002 ---
+Saved evaluation plot to ./results/sac_personalized_exp/evaluation_plot_adult-002.png
+Process for adult#008 starting on device: cuda:1
+--- Starting Training for Patient: adult#008 on cuda:1 ---
+[adult#008 on cuda:1] Episode 50/200 | Reward: -12649.65
+[adult#006 on cuda:1] Episode 100/200 | Reward: -5840.32
+[adult#007 on cuda:0] Episode 100/200 | Reward: -2235.00
+[adult#008 on cuda:1] Episode 100/200 | Reward: -600.70
+[adult#005 on cuda:0] Episode 150/200 | Reward: -576.68
+[adult#006 on cuda:1] Episode 150/200 | Reward: -6587.83
+[adult#007 on cuda:0] Episode 150/200 | Reward: -1608.82
+[adult#008 on cuda:1] Episode 150/200 | Reward: 973.23
+[adult#005 on cuda:0] Episode 200/200 | Reward: -465.46
+--- Training Finished for adult#005 ---
+Saved trained model to ./models/sac_personalized_exp/actor_adult-005.pth
+Saved learning curve plot to ./results/sac_personalized_exp/learning_curve_adult-005.png
+
+--- Starting Evaluation for adult#005 ---
+Saved evaluation plot to ./results/sac_personalized_exp/evaluation_plot_adult-005.png
+Process for adult#009 starting on device: cuda:0
+--- Starting Training for Patient: adult#009 on cuda:0 ---
+[adult#009 on cuda:0] Episode 50/200 | Reward: -12133.05
+[adult#006 on cuda:1] Episode 200/200 | Reward: -6674.19
+--- Training Finished for adult#006 ---
+Saved trained model to ./models/sac_personalized_exp/actor_adult-006.pth
+Saved learning curve plot to ./results/sac_personalized_exp/learning_curve_adult-006.png
+
+--- Starting Evaluation for adult#006 ---
+Saved evaluation plot to ./results/sac_personalized_exp/evaluation_plot_adult-006.png
+Process for adult#010 starting on device: cuda:1
+--- Starting Training for Patient: adult#010 on cuda:1 ---
+[adult#010 on cuda:1] Episode 50/200 | Reward: -29124.07
+[adult#007 on cuda:0] Episode 200/200 | Reward: -2901.93
+--- Training Finished for adult#007 ---
+Saved trained model to ./models/sac_personalized_exp/actor_adult-007.pth
+Saved learning curve plot to ./results/sac_personalized_exp/learning_curve_adult-007.png
+
+--- Starting Evaluation for adult#007 ---
+Saved evaluation plot to ./results/sac_personalized_exp/evaluation_plot_adult-007.png
+[adult#008 on cuda:1] Episode 200/200 | Reward: -217.57
+--- Training Finished for adult#008 ---
+Saved trained model to ./models/sac_personalized_exp/actor_adult-008.pth
+Saved learning curve plot to ./results/sac_personalized_exp/learning_curve_adult-008.png
+
+--- Starting Evaluation for adult#008 ---
+Saved evaluation plot to ./results/sac_personalized_exp/evaluation_plot_adult-008.png
+[adult#009 on cuda:0] Episode 100/200 | Reward: -1221.22
+[adult#010 on cuda:1] Episode 100/200 | Reward: -177.13
+[adult#009 on cuda:0] Episode 150/200 | Reward: 239.22
+[adult#010 on cuda:1] Episode 150/200 | Reward: -864.67
+[adult#009 on cuda:0] Episode 200/200 | Reward: -133.00
+--- Training Finished for adult#009 ---
+Saved trained model to ./models/sac_personalized_exp/actor_adult-009.pth
+Saved learning curve plot to ./results/sac_personalized_exp/learning_curve_adult-009.png
+
+--- Starting Evaluation for adult#009 ---
+Saved evaluation plot to ./results/sac_personalized_exp/evaluation_plot_adult-009.png
+[adult#010 on cuda:1] Episode 200/200 | Reward: -2022.09
+--- Training Finished for adult#010 ---
+Saved trained model to ./models/sac_personalized_exp/actor_adult-010.pth
+Saved learning curve plot to ./results/sac_personalized_exp/learning_curve_adult-010.png
+
+--- Starting Evaluation for adult#010 ---
+Saved evaluation plot to ./results/sac_personalized_exp/evaluation_plot_adult-010.png
+
+==================================================
+--- ALL TRAINING PROCESSES COMPLETE ---
+==================================================
+
+======================================================================
+--- OVERALL EVALUATION SUMMARY ---
+======================================================================
+
+--- Performance per Patient ---
+  Patient  Mean Glucose (mg/dL)  Time in Range (%)  Time Hypo (%)  Time Hyper (%)
+adult#001            133.578766         100.000000       0.000000        0.000000
+adult#002             87.649178          60.899654      39.100346        0.000000
+adult#003            140.572922         100.000000       0.000000        0.000000
+adult#004             92.929008          62.975779      37.024221        0.000000
+adult#005            127.951965         100.000000       0.000000        0.000000
+adult#006            212.121902          33.217993       0.000000       66.782007
+adult#007            180.835510          50.865052       3.460208       45.674740
+adult#008            149.733429          91.003460       0.000000        8.996540
+adult#009            136.450317         100.000000       0.000000        0.000000
+adult#010            147.276703         100.000000       0.000000        0.000000
+
+
+--- Average Performance Across All Patients ---
+Mean Glucose (mg/dL): 140.91
+Time in Range (%):    79.90
+Time Hypo (%):        7.96
+Time Hyper (%):       12.15
+
+✅ Saved overall summary table to ./results/sac_personalized_exp/overall_summary.csv
+
+======================================================================
+
+--- Generating Overall Summary Plot ---
+✅ Saved overall summary plot to ./results/sac_personalized_exp/overall_summary_plot.png
+
+--- Generating Overall Average Learning Curve ---
+✅ Saved overall average learning curve to ./results/sac_personalized_exp/overall_learning_curve.png
+/kaggle/working/Hruthik/using_gymnasium#
+
+
+since sac with fixed vs realistic meal comp is not sufficient ; worked on increasing the performance from 70% (realistic) by increasing 3d to 9D , but ended up failure of model,
+____________________
+
+So now compared SAC with SAC_mixture density network 
+results are increased from 83.92 % to 91.31 % ; Here is the log:
+python compare_sac_vs_sac_mdn.py
+
+######################################################################
+###### STARTING EXPERIMENT FOR AGENT TYPE: GAUSSIAN ######
+######################################################################
+
+Starting parallel training for 10 patients on 1 GPUs...
+Process for adult#001 (GAUSSIAN) starting on device: cuda:0
+Process for adult#002 (GAUSSIAN) starting on device: cuda:0
+Process for adult#003 (GAUSSIAN) starting on device: cuda:0
+Process for adult#004 (GAUSSIAN) starting on device: cuda:0
+--- Starting Training for Patient: adult#001 (GAUSSIAN) on cuda:0 ---
+--- Starting Training for Patient: adult#002 (GAUSSIAN) on cuda:0 ---
+--- Starting Training for Patient: adult#003 (GAUSSIAN) on cuda:0 ---
+--- Starting Training for Patient: adult#004 (GAUSSIAN) on cuda:0 ---
+[adult#003 (GAUSSIAN) on cuda:0] Episode 50/200 | Reward: -12826.99
+[adult#001 (GAUSSIAN) on cuda:0] Episode 50/200 | Reward: -27202.85
+[adult#003 (GAUSSIAN) on cuda:0] Episode 100/200 | Reward: -12980.73
+[adult#004 (GAUSSIAN) on cuda:0] Episode 50/200 | Reward: -134805.59
+[adult#002 (GAUSSIAN) on cuda:0] Episode 50/200 | Reward: -166426.61
+[adult#003 (GAUSSIAN) on cuda:0] Episode 150/200 | Reward: -20719.13
+[adult#001 (GAUSSIAN) on cuda:0] Episode 100/200 | Reward: -63413.85
+[adult#003 (GAUSSIAN) on cuda:0] Episode 200/200 | Reward: -25231.01
+--- Training Finished for adult#003 (GAUSSIAN) ---
+Saved trained model to ./models/sac_gaussian_personalized_exp/actor_adult-003.pth
+Saved learning curve plot to ./results/sac_gaussian_personalized_exp/learning_curve_adult-003.png
+
+--- Starting Evaluation for adult#003 (GAUSSIAN) ---
+[adult#002 (GAUSSIAN) on cuda:0] Episode 100/200 | Reward: 655.03
+[adult#004 (GAUSSIAN) on cuda:0] Episode 100/200 | Reward: -40890.84
+Saved evaluation plot to ./results/sac_gaussian_personalized_exp/evaluation_plot_adult-003.png
+Process for adult#005 (GAUSSIAN) starting on device: cuda:0
+--- Starting Training for Patient: adult#005 (GAUSSIAN) on cuda:0 ---
+[adult#005 (GAUSSIAN) on cuda:0] Episode 50/200 | Reward: -15711.90
+[adult#001 (GAUSSIAN) on cuda:0] Episode 150/200 | Reward: 1257.53
+[adult#005 (GAUSSIAN) on cuda:0] Episode 100/200 | Reward: -25246.65
+[adult#004 (GAUSSIAN) on cuda:0] Episode 150/200 | Reward: -90750.54
+[adult#002 (GAUSSIAN) on cuda:0] Episode 150/200 | Reward: 577.40
+[adult#001 (GAUSSIAN) on cuda:0] Episode 200/200 | Reward: 973.21
+--- Training Finished for adult#001 (GAUSSIAN) ---
+Saved trained model to ./models/sac_gaussian_personalized_exp/actor_adult-001.pth
+Saved learning curve plot to ./results/sac_gaussian_personalized_exp/learning_curve_adult-001.png
+
+--- Starting Evaluation for adult#001 (GAUSSIAN) ---
+Saved evaluation plot to ./results/sac_gaussian_personalized_exp/evaluation_plot_adult-001.png
+Process for adult#006 (GAUSSIAN) starting on device: cuda:0
+--- Starting Training for Patient: adult#006 (GAUSSIAN) on cuda:0 ---
+[adult#005 (GAUSSIAN) on cuda:0] Episode 150/200 | Reward: 993.78
+[adult#006 (GAUSSIAN) on cuda:0] Episode 50/200 | Reward: -17878.94
+[adult#006 (GAUSSIAN) on cuda:0] Episode 100/200 | Reward: -20108.80
+[adult#004 (GAUSSIAN) on cuda:0] Episode 200/200 | Reward: -79704.96
+--- Training Finished for adult#004 (GAUSSIAN) ---
+Saved trained model to ./models/sac_gaussian_personalized_exp/actor_adult-004.pth
+Saved learning curve plot to ./results/sac_gaussian_personalized_exp/learning_curve_adult-004.png
+
+--- Starting Evaluation for adult#004 (GAUSSIAN) ---
+[adult#002 (GAUSSIAN) on cuda:0] Episode 200/200 | Reward: 523.75
+--- Training Finished for adult#002 (GAUSSIAN) ---
+Saved trained model to ./models/sac_gaussian_personalized_exp/actor_adult-002.pth
+Saved learning curve plot to ./results/sac_gaussian_personalized_exp/learning_curve_adult-002.png
+
+--- Starting Evaluation for adult#002 (GAUSSIAN) ---
+Saved evaluation plot to ./results/sac_gaussian_personalized_exp/evaluation_plot_adult-004.png
+Process for adult#007 (GAUSSIAN) starting on device: cuda:0
+--- Starting Training for Patient: adult#007 (GAUSSIAN) on cuda:0 ---
+Saved evaluation plot to ./results/sac_gaussian_personalized_exp/evaluation_plot_adult-002.png
+Process for adult#008 (GAUSSIAN) starting on device: cuda:0
+--- Starting Training for Patient: adult#008 (GAUSSIAN) on cuda:0 ---
+[adult#007 (GAUSSIAN) on cuda:0] Episode 50/200 | Reward: -27185.68
+[adult#008 (GAUSSIAN) on cuda:0] Episode 50/200 | Reward: -16169.84
+[adult#006 (GAUSSIAN) on cuda:0] Episode 150/200 | Reward: -43345.15
+[adult#007 (GAUSSIAN) on cuda:0] Episode 100/200 | Reward: -20781.06
+[adult#008 (GAUSSIAN) on cuda:0] Episode 100/200 | Reward: -18425.93
+[adult#005 (GAUSSIAN) on cuda:0] Episode 200/200 | Reward: 1348.93
+--- Training Finished for adult#005 (GAUSSIAN) ---
+Saved trained model to ./models/sac_gaussian_personalized_exp/actor_adult-005.pth
+Saved learning curve plot to ./results/sac_gaussian_personalized_exp/learning_curve_adult-005.png
+
+--- Starting Evaluation for adult#005 (GAUSSIAN) ---
+Saved evaluation plot to ./results/sac_gaussian_personalized_exp/evaluation_plot_adult-005.png
+Process for adult#009 (GAUSSIAN) starting on device: cuda:0
+--- Starting Training for Patient: adult#009 (GAUSSIAN) on cuda:0 ---
+[adult#009 (GAUSSIAN) on cuda:0] Episode 50/200 | Reward: -20323.49
+[adult#008 (GAUSSIAN) on cuda:0] Episode 150/200 | Reward: -14648.77
+[adult#009 (GAUSSIAN) on cuda:0] Episode 100/200 | Reward: -28815.22
+[adult#007 (GAUSSIAN) on cuda:0] Episode 150/200 | Reward: -1706.97
+[adult#006 (GAUSSIAN) on cuda:0] Episode 200/200 | Reward: -3373.87
+--- Training Finished for adult#006 (GAUSSIAN) ---
+Saved trained model to ./models/sac_gaussian_personalized_exp/actor_adult-006.pth
+Saved learning curve plot to ./results/sac_gaussian_personalized_exp/learning_curve_adult-006.png
+
+--- Starting Evaluation for adult#006 (GAUSSIAN) ---
+[adult#008 (GAUSSIAN) on cuda:0] Episode 200/200 | Reward: -73446.99
+--- Training Finished for adult#008 (GAUSSIAN) ---
+Saved trained model to ./models/sac_gaussian_personalized_exp/actor_adult-008.pth
+Saved learning curve plot to ./results/sac_gaussian_personalized_exp/learning_curve_adult-008.png
+
+--- Starting Evaluation for adult#008 (GAUSSIAN) ---
+Saved evaluation plot to ./results/sac_gaussian_personalized_exp/evaluation_plot_adult-008.png
+Process for adult#010 (GAUSSIAN) starting on device: cuda:0
+--- Starting Training for Patient: adult#010 (GAUSSIAN) on cuda:0 ---
+Saved evaluation plot to ./results/sac_gaussian_personalized_exp/evaluation_plot_adult-006.png
+[adult#010 (GAUSSIAN) on cuda:0] Episode 50/200 | Reward: -25973.29
+[adult#009 (GAUSSIAN) on cuda:0] Episode 150/200 | Reward: 141.81
+[adult#010 (GAUSSIAN) on cuda:0] Episode 100/200 | Reward: -22932.54
+[adult#007 (GAUSSIAN) on cuda:0] Episode 200/200 | Reward: -1687.81
+--- Training Finished for adult#007 (GAUSSIAN) ---
+Saved trained model to ./models/sac_gaussian_personalized_exp/actor_adult-007.pth
+Saved learning curve plot to ./results/sac_gaussian_personalized_exp/learning_curve_adult-007.png
+
+--- Starting Evaluation for adult#007 (GAUSSIAN) ---
+Saved evaluation plot to ./results/sac_gaussian_personalized_exp/evaluation_plot_adult-007.png
+[adult#009 (GAUSSIAN) on cuda:0] Episode 200/200 | Reward: 21.51
+--- Training Finished for adult#009 (GAUSSIAN) ---
+Saved trained model to ./models/sac_gaussian_personalized_exp/actor_adult-009.pth
+Saved learning curve plot to ./results/sac_gaussian_personalized_exp/learning_curve_adult-009.png
+
+--- Starting Evaluation for adult#009 (GAUSSIAN) ---
+Saved evaluation plot to ./results/sac_gaussian_personalized_exp/evaluation_plot_adult-009.png
+[adult#010 (GAUSSIAN) on cuda:0] Episode 150/200 | Reward: 383.72
+[adult#010 (GAUSSIAN) on cuda:0] Episode 200/200 | Reward: 133.82
+--- Training Finished for adult#010 (GAUSSIAN) ---
+Saved trained model to ./models/sac_gaussian_personalized_exp/actor_adult-010.pth
+Saved learning curve plot to ./results/sac_gaussian_personalized_exp/learning_curve_adult-010.png
+
+--- Starting Evaluation for adult#010 (GAUSSIAN) ---
+Saved evaluation plot to ./results/sac_gaussian_personalized_exp/evaluation_plot_adult-010.png
+
+--- ALL TRAINING PROCESSES FOR GAUSSIAN COMPLETE ---
+
+======================================================================
+--- OVERALL EVALUATION SUMMARY (GAUSSIAN) ---
+======================================================================
+
+--- Performance per Patient ---
+  Patient  Mean Glucose (mg/dL)  Time in Range (%)  Time Hypo (%)  Time Hyper (%)
+adult#001             98.950874          96.193772       3.806228        0.000000
+adult#002            112.025696         100.000000       0.000000        0.000000
+adult#003             91.182541          60.619469      39.380531        0.000000
+adult#004             75.671265          40.837696      59.162304        0.000000
+adult#005            106.457436          84.083045      14.186851        1.730104
+adult#006            134.366364         100.000000       0.000000        0.000000
+adult#007            116.929794         100.000000       0.000000        0.000000
+adult#008             90.003624          63.366337      36.633663        0.000000
+adult#009            114.136810         100.000000       0.000000        0.000000
+adult#010            109.833298          94.117647       5.882353        0.000000
+
+
+--- Average Performance Across All Patients ---
+Mean Glucose (mg/dL): 104.96
+Time in Range (%):    83.92
+Time Hypo (%):        15.91
+Time Hyper (%):       0.17
+
+✅ Saved overall summary table to ./results/sac_gaussian_personalized_exp/overall_summary.csv
+
+======================================================================
+
+--- Generating Overall Summary Plot ---
+
+⚠️ Could not generate summary plot. Error: name 'plt' is not defined
+
+--- Generating Overall Average Learning Curve ---
+
+⚠️ Could not generate overall learning curve. Error: name 'plt' is not defined
+
+######################################################################
+###### STARTING EXPERIMENT FOR AGENT TYPE: MDN ######
+######################################################################
+
+Starting parallel training for 10 patients on 1 GPUs...
+Process for adult#001 (MDN) starting on device: cuda:0
+Process for adult#002 (MDN) starting on device: cuda:0
+Process for adult#003 (MDN) starting on device: cuda:0
+Process for adult#004 (MDN) starting on device: cuda:0
+--- Starting Training for Patient: adult#001 (MDN) on cuda:0 ---
+--- Starting Training for Patient: adult#002 (MDN) on cuda:0 ---
+--- Starting Training for Patient: adult#004 (MDN) on cuda:0 ---
+--- Starting Training for Patient: adult#003 (MDN) on cuda:0 ---
+[adult#004 (MDN) on cuda:0] Episode 50/200 | Reward: -12660.36
+[adult#003 (MDN) on cuda:0] Episode 50/200 | Reward: -11521.45
+[adult#001 (MDN) on cuda:0] Episode 50/200 | Reward: -35222.45
+[adult#003 (MDN) on cuda:0] Episode 100/200 | Reward: -12565.37
+[adult#004 (MDN) on cuda:0] Episode 100/200 | Reward: -28207.46
+[adult#002 (MDN) on cuda:0] Episode 50/200 | Reward: -85631.93
+[adult#003 (MDN) on cuda:0] Episode 150/200 | Reward: -30566.38
+[adult#001 (MDN) on cuda:0] Episode 100/200 | Reward: -18860.77
+[adult#004 (MDN) on cuda:0] Episode 150/200 | Reward: 477.18
+[adult#002 (MDN) on cuda:0] Episode 100/200 | Reward: 848.62
+[adult#003 (MDN) on cuda:0] Episode 200/200 | Reward: 595.89
+--- Training Finished for adult#003 (MDN) ---
+Saved trained model to ./models/sac_mdn_personalized_exp/actor_adult-003.pth
+Saved learning curve plot to ./results/sac_mdn_personalized_exp/learning_curve_adult-003.png
+
+--- Starting Evaluation for adult#003 (MDN) ---
+Saved evaluation plot to ./results/sac_mdn_personalized_exp/evaluation_plot_adult-003.png
+Process for adult#005 (MDN) starting on device: cuda:0
+--- Starting Training for Patient: adult#005 (MDN) on cuda:0 ---
+[adult#001 (MDN) on cuda:0] Episode 150/200 | Reward: 755.42
+[adult#005 (MDN) on cuda:0] Episode 50/200 | Reward: -22217.84
+[adult#004 (MDN) on cuda:0] Episode 200/200 | Reward: 714.08
+--- Training Finished for adult#004 (MDN) ---
+Saved trained model to ./models/sac_mdn_personalized_exp/actor_adult-004.pth
+Saved learning curve plot to ./results/sac_mdn_personalized_exp/learning_curve_adult-004.png
+
+--- Starting Evaluation for adult#004 (MDN) ---
+Saved evaluation plot to ./results/sac_mdn_personalized_exp/evaluation_plot_adult-004.png
+Process for adult#006 (MDN) starting on device: cuda:0
+--- Starting Training for Patient: adult#006 (MDN) on cuda:0 ---
+[adult#006 (MDN) on cuda:0] Episode 50/200 | Reward: -22627.24
+[adult#005 (MDN) on cuda:0] Episode 100/200 | Reward: -3618.71
+[adult#006 (MDN) on cuda:0] Episode 100/200 | Reward: -27775.90
+[adult#002 (MDN) on cuda:0] Episode 150/200 | Reward: 1043.14
+[adult#001 (MDN) on cuda:0] Episode 200/200 | Reward: 599.45
+--- Training Finished for adult#001 (MDN) ---
+Saved trained model to ./models/sac_mdn_personalized_exp/actor_adult-001.pth
+Saved learning curve plot to ./results/sac_mdn_personalized_exp/learning_curve_adult-001.png
+
+--- Starting Evaluation for adult#001 (MDN) ---
+Saved evaluation plot to ./results/sac_mdn_personalized_exp/evaluation_plot_adult-001.png
+Process for adult#007 (MDN) starting on device: cuda:0
+--- Starting Training for Patient: adult#007 (MDN) on cuda:0 ---
+[adult#007 (MDN) on cuda:0] Episode 50/200 | Reward: -23126.51
+[adult#007 (MDN) on cuda:0] Episode 100/200 | Reward: -31923.67
+[adult#005 (MDN) on cuda:0] Episode 150/200 | Reward: 914.26
+[adult#006 (MDN) on cuda:0] Episode 150/200 | Reward: 1055.45
+[adult#002 (MDN) on cuda:0] Episode 200/200 | Reward: 621.59
+--- Training Finished for adult#002 (MDN) ---
+Saved trained model to ./models/sac_mdn_personalized_exp/actor_adult-002.pth
+Saved learning curve plot to ./results/sac_mdn_personalized_exp/learning_curve_adult-002.png
+
+--- Starting Evaluation for adult#002 (MDN) ---
+Saved evaluation plot to ./results/sac_mdn_personalized_exp/evaluation_plot_adult-002.png
+Process for adult#008 (MDN) starting on device: cuda:0
+--- Starting Training for Patient: adult#008 (MDN) on cuda:0 ---
+[adult#008 (MDN) on cuda:0] Episode 50/200 | Reward: -14373.67
+[adult#008 (MDN) on cuda:0] Episode 100/200 | Reward: -106386.11
+[adult#007 (MDN) on cuda:0] Episode 150/200 | Reward: 224.90
+[adult#005 (MDN) on cuda:0] Episode 200/200 | Reward: 348.90
+--- Training Finished for adult#005 (MDN) ---
+Saved trained model to ./models/sac_mdn_personalized_exp/actor_adult-005.pth
+Saved learning curve plot to ./results/sac_mdn_personalized_exp/learning_curve_adult-005.png
+
+--- Starting Evaluation for adult#005 (MDN) ---
+Saved evaluation plot to ./results/sac_mdn_personalized_exp/evaluation_plot_adult-005.png
+Process for adult#009 (MDN) starting on device: cuda:0
+--- Starting Training for Patient: adult#009 (MDN) on cuda:0 ---
+[adult#009 (MDN) on cuda:0] Episode 50/200 | Reward: -21898.05
+[adult#006 (MDN) on cuda:0] Episode 200/200 | Reward: -1058.00
+--- Training Finished for adult#006 (MDN) ---
+Saved trained model to ./models/sac_mdn_personalized_exp/actor_adult-006.pth
+Saved learning curve plot to ./results/sac_mdn_personalized_exp/learning_curve_adult-006.png
+
+--- Starting Evaluation for adult#006 (MDN) ---
+Saved evaluation plot to ./results/sac_mdn_personalized_exp/evaluation_plot_adult-006.png
+Process for adult#010 (MDN) starting on device: cuda:0
+--- Starting Training for Patient: adult#010 (MDN) on cuda:0 ---
+[adult#010 (MDN) on cuda:0] Episode 50/200 | Reward: -23018.90
+[adult#009 (MDN) on cuda:0] Episode 100/200 | Reward: -32797.98
+[adult#008 (MDN) on cuda:0] Episode 150/200 | Reward: 539.38
+[adult#007 (MDN) on cuda:0] Episode 200/200 | Reward: -4669.65
+--- Training Finished for adult#007 (MDN) ---
+Saved trained model to ./models/sac_mdn_personalized_exp/actor_adult-007.pth
+Saved learning curve plot to ./results/sac_mdn_personalized_exp/learning_curve_adult-007.png
+
+--- Starting Evaluation for adult#007 (MDN) ---
+Saved evaluation plot to ./results/sac_mdn_personalized_exp/evaluation_plot_adult-007.png
+[adult#010 (MDN) on cuda:0] Episode 100/200 | Reward: 103.66
+[adult#009 (MDN) on cuda:0] Episode 150/200 | Reward: -21668.02
+[adult#008 (MDN) on cuda:0] Episode 200/200 | Reward: -1055.70
+--- Training Finished for adult#008 (MDN) ---
+Saved trained model to ./models/sac_mdn_personalized_exp/actor_adult-008.pth
+Saved learning curve plot to ./results/sac_mdn_personalized_exp/learning_curve_adult-008.png
+
+--- Starting Evaluation for adult#008 (MDN) ---
+Saved evaluation plot to ./results/sac_mdn_personalized_exp/evaluation_plot_adult-008.png
+[adult#010 (MDN) on cuda:0] Episode 150/200 | Reward: -1498.24
+[adult#009 (MDN) on cuda:0] Episode 200/200 | Reward: 842.07
+--- Training Finished for adult#009 (MDN) ---
+Saved trained model to ./models/sac_mdn_personalized_exp/actor_adult-009.pth
+Saved learning curve plot to ./results/sac_mdn_personalized_exp/learning_curve_adult-009.png
+
+--- Starting Evaluation for adult#009 (MDN) ---
+Saved evaluation plot to ./results/sac_mdn_personalized_exp/evaluation_plot_adult-009.png
+[adult#010 (MDN) on cuda:0] Episode 200/200 | Reward: -1228.47
+--- Training Finished for adult#010 (MDN) ---
+Saved trained model to ./models/sac_mdn_personalized_exp/actor_adult-010.pth
+Saved learning curve plot to ./results/sac_mdn_personalized_exp/learning_curve_adult-010.png
+
+--- Starting Evaluation for adult#010 (MDN) ---
+Saved evaluation plot to ./results/sac_mdn_personalized_exp/evaluation_plot_adult-010.png
+
+--- ALL TRAINING PROCESSES FOR MDN COMPLETE ---
+
+======================================================================
+--- OVERALL EVALUATION SUMMARY (MDN) ---
+======================================================================
+
+--- Performance per Patient ---
+  Patient  Mean Glucose (mg/dL)  Time in Range (%)  Time Hypo (%)  Time Hyper (%)
+adult#001            100.220238          89.965398      10.034602        0.000000
+adult#002            119.847672         100.000000       0.000000        0.000000
+adult#003            107.107796          91.349481       8.650519        0.000000
+adult#004            115.028534          97.923875       2.076125        0.000000
+adult#005            110.221573         100.000000       0.000000        0.000000
+adult#006            119.194313         100.000000       0.000000        0.000000
+adult#007            139.497787          85.467128       0.000000       14.532872
+adult#008            151.476532         100.000000       0.000000        0.000000
+adult#009             75.367035          51.211073      48.788927        0.000000
+adult#010            146.676804          97.231834       0.000000        2.768166
+
+
+--- Average Performance Across All Patients ---
+Mean Glucose (mg/dL): 118.46
+Time in Range (%):    91.31
+Time Hypo (%):        6.96
+Time Hyper (%):       1.73
+
+✅ Saved overall summary table to ./results/sac_mdn_personalized_exp/overall_summary.csv
+
+======================================================================
+
+--- Generating Overall Summary Plot ---
+
+⚠️ Could not generate summary plot. Error: name 'plt' is not defined
+
+--- Generating Overall Average Learning Curve ---
+
+⚠️ Could not generate overall learning curve. Error: name 'plt' is not defined

@@ -1,0 +1,49 @@
+/home/jupyter-228w1a12b4/Hruthik/using_gymnasium/gymnasium_env/lib/python3.12/site-packages/gym/envs/registration.py:2: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Using device: cuda
+
+==================================================
+--- Actor Network Architecture ---
+----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Linear-1                  [-1, 256]           1,280
+            Linear-2                  [-1, 256]          65,792
+            Linear-3                    [-1, 5]           1,285
+            Linear-4                    [-1, 5]           1,285
+            Linear-5                    [-1, 5]           1,285
+================================================================
+Total params: 70,927
+Trainable params: 70,927
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 0.00
+Forward/backward pass size (MB): 0.00
+Params size (MB): 0.27
+Estimated Total Size (MB): 0.27
+----------------------------------------------------------------
+
+==================================================
+--- Critic Network Architecture ---
+----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Linear-1                  [-1, 256]           1,536
+            Linear-2                  [-1, 256]          65,792
+            Linear-3                    [-1, 1]             257
+================================================================
+Total params: 67,585
+Trainable params: 67,585
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 0.00
+Forward/backward pass size (MB): 0.00
+Params size (MB): 0.26
+Estimated Total Size (MB): 0.26
+----------------------------------------------------------------
+==================================================
+
+
+==================================================
+--- Starting Training for Adult Cohort Model ---
+==================================================
