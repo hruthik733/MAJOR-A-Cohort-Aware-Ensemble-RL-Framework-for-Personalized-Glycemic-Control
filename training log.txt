@@ -1,0 +1,847 @@
+            if args.cohort == 'child':
+                clinical_max = 0.3      
+            elif args.cohort == 'adolescent':
+                clinical_max = 0.75      # Slightly raised from 0.5 
+            else:
+                clinical_max = 2.0       # Raised from 1.0 to fix Adult Hyperglycemia
+                
+            normalized_action = (raw_action[0] + 1.0) / 2.0  # Use action[0] in test script
+            
+            # # For adults, we remove the squaring math so they get linear, powerful boluses
+            if args.cohort == 'adult':
+                insulin_dose = np.array([normalized_action * clinical_max])
+            else:
+                # Children and Adolescents keep the squared math for micro-dosing precision
+                insulin_dose = np.array([(normalized_action ** 2) * clinical_max])
+
+            
+            # Apply safety rules
+            safe_action = safety_layer.apply(insulin_dose, u_state)
+            manager.insulin_history.append(safe_action[0])
+
+
+
+and in safety layer :
+	if self.cohort == 'child':
+            self.max_safe_iob = 1.0       # Tightened from 1.5
+        elif self.cohort == 'adolescent':
+            self.max_safe_iob = 2.0       # Tightened from 3.0
+        else:
+            self.max_safe_iob = 6.0       # Kept high for adults to fix Hyperglycemia
+
+/kaggle/working/Hruthik/using_gymnasium# python train_ensemble_cohort.py --cohort child
+Starting TRAINABLE ENSEMBLE on CHILD cohort using cuda
+
+======================================================================
+--- TRAINING META-CONTROLLER ENSEMBLE FOR CHILD ---
+======================================================================
+[  CHILD   ] Ep 001 | Patient: child#002    | Reward: -57249.64 | Rolling Avg: -57249.64 | Ep Steps: 288 | Avg SAC Wt: 0.50 | Total Steps: 288   
+[  CHILD   ] Ep 010 | Patient: child#010    | Reward: -28435.03 | Rolling Avg: -62972.23 | Ep Steps: 288 | Avg SAC Wt: 0.76 | Total Steps: 2880   | 🌟 NEW BEST AVG! (+0.00)
+[  CHILD   ] Ep 011 | Patient: child#007    | Reward: -15935.66 | Rolling Avg: -58840.83 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 3168   | 🌟 NEW BEST AVG! (+4131.40)
+[  CHILD   ] Ep 012 | Patient: child#001    | Reward: -81486.06 | Rolling Avg: -58478.37 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 3456   | 🌟 NEW BEST AVG! (+362.47)
+[  CHILD   ] Ep 020 | Patient: child#009    | Reward: -49076.14 | Rolling Avg: -62264.13 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 5760  
+[  CHILD   ] Ep 023 | Patient: child#007    | Reward:      6.18 | Rolling Avg: -55724.41 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 6530   | 🌟 NEW BEST AVG! (+2753.96)
+[  CHILD   ] Ep 024 | Patient: child#004    | Reward: -56696.89 | Rolling Avg: -55215.98 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 6818   | 🌟 NEW BEST AVG! (+508.43)
+[  CHILD   ] Ep 025 | Patient: child#008    | Reward: -17929.61 | Rolling Avg: -48844.72 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 7106   | 🌟 NEW BEST AVG! (+6371.26)
+[  CHILD   ] Ep 026 | Patient: child#010    | Reward: -15003.45 | Rolling Avg: -42015.61 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 7394   | 🌟 NEW BEST AVG! (+6829.11)
+[  CHILD   ] Ep 027 | Patient: child#005    | Reward: -26264.58 | Rolling Avg: -36895.17 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 7682   | 🌟 NEW BEST AVG! (+5120.43)
+[  CHILD   ] Ep 028 | Patient: child#001    | Reward: -35536.49 | Rolling Avg: -36431.76 | Ep Steps: 235 | Avg SAC Wt: 0.80 | Total Steps: 7917   | 🌟 NEW BEST AVG! (+463.42)
+[  CHILD   ] Ep 030 | Patient: child#007    | Reward:   5429.18 | Rolling Avg: -33064.10 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 8493   | 🌟 NEW BEST AVG! (+3367.66)
+[  CHILD   ] Ep 031 | Patient: child#006    | Reward: -41829.36 | Rolling Avg: -32745.10 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 8781   | 🌟 NEW BEST AVG! (+319.00)
+[  CHILD   ] Ep 032 | Patient: child#005    | Reward: -12661.94 | Rolling Avg: -28019.30 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 9069   | 🌟 NEW BEST AVG! (+4725.80)
+[  CHILD   ] Ep 040 | Patient: child#006    | Reward:  -9782.56 | Rolling Avg: -32065.03 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 11373 
+[  CHILD   ] Ep 044 | Patient: child#001    | Reward:  -4772.20 | Rolling Avg: -23263.26 | Ep Steps: 178 | Avg SAC Wt: 0.80 | Total Steps: 12415  | 🌟 NEW BEST AVG! (+4756.05)
+[  CHILD   ] Ep 045 | Patient: child#008    | Reward: -11649.21 | Rolling Avg: -19862.51 | Ep Steps: 269 | Avg SAC Wt: 0.80 | Total Steps: 12684  | 🌟 NEW BEST AVG! (+3400.74)
+[  CHILD   ] Ep 050 | Patient: child#009    | Reward: -61746.13 | Rolling Avg: -33405.03 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 14124 
+[  CHILD   ] Ep 060 | Patient: child#002    | Reward:  -5498.41 | Rolling Avg: -39132.54 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 16621 
+[  CHILD   ] Ep 068 | Patient: child#006    | Reward:  -7433.21 | Rolling Avg: -18136.95 | Ep Steps: 169 | Avg SAC Wt: 0.80 | Total Steps: 18446  | 🌟 NEW BEST AVG! (+1725.56)
+[  CHILD   ] Ep 070 | Patient: child#004    | Reward: -55891.87 | Rolling Avg: -23586.84 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 18980 
+[  CHILD   ] Ep 071 | Patient: child#005    | Reward:  -7254.56 | Rolling Avg: -16096.79 | Ep Steps: 147 | Avg SAC Wt: 0.80 | Total Steps: 19127  | 🌟 NEW BEST AVG! (+2040.16)
+[  CHILD   ] Ep 072 | Patient: child#002    | Reward: -15557.53 | Rolling Avg: -15818.87 | Ep Steps: 274 | Avg SAC Wt: 0.80 | Total Steps: 19401  | 🌟 NEW BEST AVG! (+277.92)
+[  CHILD   ] Ep 080 | Patient: child#005    | Reward:  -6949.41 | Rolling Avg: -24346.17 | Ep Steps: 148 | Avg SAC Wt: 0.80 | Total Steps: 21415 
+[  CHILD   ] Ep 086 | Patient: child#001    | Reward:  -5141.40 | Rolling Avg: -12599.81 | Ep Steps: 127 | Avg SAC Wt: 0.80 | Total Steps: 22521  | 🌟 NEW BEST AVG! (+3219.06)
+[  CHILD   ] Ep 087 | Patient: child#006    | Reward:  -6215.35 | Rolling Avg: -12364.70 | Ep Steps: 171 | Avg SAC Wt: 0.80 | Total Steps: 22692  | 🌟 NEW BEST AVG! (+235.11)
+[  CHILD   ] Ep 088 | Patient: child#007    | Reward: -10329.01 | Rolling Avg: -12045.75 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 22980  | 🌟 NEW BEST AVG! (+318.94)
+[  CHILD   ] Ep 089 | Patient: child#005    | Reward:  -5928.20 | Rolling Avg: -11495.53 | Ep Steps: 140 | Avg SAC Wt: 0.80 | Total Steps: 23120  | 🌟 NEW BEST AVG! (+550.22)
+[  CHILD   ] Ep 090 | Patient: child#002    | Reward: -12904.32 | Rolling Avg: -12091.02 | Ep Steps: 244 | Avg SAC Wt: 0.80 | Total Steps: 23364 
+[  CHILD   ] Ep 100 | Patient: child#003    | Reward:  -6977.89 | Rolling Avg: -18908.74 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 25693 
+[  CHILD   ] Ep 110 | Patient: child#004    | Reward:  -5582.81 | Rolling Avg: -16500.52 | Ep Steps: 120 | Avg SAC Wt: 0.80 | Total Steps: 27870 
+[  CHILD   ] Ep 120 | Patient: child#010    | Reward: -10313.10 | Rolling Avg: -16723.42 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 30372 
+[  CHILD   ] Ep 130 | Patient: child#002    | Reward:  -7091.02 | Rolling Avg: -15657.73 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 33197 
+[  CHILD   ] Ep 140 | Patient: child#005    | Reward: -25900.55 | Rolling Avg: -19332.78 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 36077 
+[  CHILD   ] Ep 150 | Patient: child#006    | Reward:  -6601.58 | Rolling Avg: -16760.81 | Ep Steps: 165 | Avg SAC Wt: 0.80 | Total Steps: 38782 
+[  CHILD   ] Ep 160 | Patient: child#006    | Reward: -21729.47 | Rolling Avg: -19856.59 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 41609 
+[  CHILD   ] Ep 170 | Patient: child#009    | Reward: -22371.40 | Rolling Avg: -21163.58 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 44428 
+[  CHILD   ] Ep 180 | Patient: child#004    | Reward: -24791.59 | Rolling Avg: -19202.81 | Ep Steps: 231 | Avg SAC Wt: 0.80 | Total Steps: 47217 
+[  CHILD   ] Ep 190 | Patient: child#004    | Reward: -32431.32 | Rolling Avg: -21727.46 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 50066 
+[  CHILD   ] Ep 200 | Patient: child#001    | Reward: -26964.20 | Rolling Avg: -24851.52 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 52946 
+[  CHILD   ] Ep 210 | Patient: child#005    | Reward: -27304.21 | Rolling Avg: -23922.39 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 55775 
+[  CHILD   ] Ep 220 | Patient: child#007    | Reward:  -7528.75 | Rolling Avg: -18154.70 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 58655 
+[  CHILD   ] Ep 230 | Patient: child#002    | Reward:  -9209.21 | Rolling Avg: -14881.14 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 61535 
+[  CHILD   ] Ep 240 | Patient: child#003    | Reward: -19509.88 | Rolling Avg: -25269.13 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 64415 
+[  CHILD   ] Ep 247 | Patient: child#008    | Reward:   2666.19 | Rolling Avg: -11158.73 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 66431  | 🌟 NEW BEST AVG! (+336.80)
+[  CHILD   ] Ep 248 | Patient: child#009    | Reward:  -4163.06 | Rolling Avg:  -9731.01 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 66719  | 🌟 NEW BEST AVG! (+1427.73)
+[  CHILD   ] Ep 249 | Patient: child#002    | Reward:   2491.19 | Rolling Avg:  -9072.43 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 67007  | 🌟 NEW BEST AVG! (+658.57)
+[  CHILD   ] Ep 250 | Patient: child#001    | Reward: -30485.84 | Rolling Avg: -10170.03 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 67295 
+[  CHILD   ] Ep 260 | Patient: child#007    | Reward:  -3682.68 | Rolling Avg: -11033.36 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 70175 
+[  CHILD   ] Ep 270 | Patient: child#009    | Reward:   -844.58 | Rolling Avg: -12133.52 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 73055 
+[  CHILD   ] Ep 271 | Patient: child#008    | Reward:   3257.86 | Rolling Avg:  -7896.83 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 73343  | 🌟 NEW BEST AVG! (+1175.60)
+[  CHILD   ] Ep 272 | Patient: child#003    | Reward:  -5519.89 | Rolling Avg:  -7886.14 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 73631  | 🌟 NEW BEST AVG! (+10.69)
+[  CHILD   ] Ep 280 | Patient: child#006    | Reward:  -9607.47 | Rolling Avg: -12622.55 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 75935 
+[  CHILD   ] Ep 285 | Patient: child#009    | Reward:  -2834.01 | Rolling Avg:  -6150.14 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 77375  | 🌟 NEW BEST AVG! (+1736.00)
+[  CHILD   ] Ep 286 | Patient: child#009    | Reward:  -1383.90 | Rolling Avg:  -5254.68 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 77663  | 🌟 NEW BEST AVG! (+895.47)
+[  CHILD   ] Ep 287 | Patient: child#003    | Reward:  -1556.25 | Rolling Avg:  -4818.71 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 77951  | 🌟 NEW BEST AVG! (+435.96)
+[  CHILD   ] Ep 288 | Patient: child#001    | Reward:  -2500.93 | Rolling Avg:  -4756.67 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 78239  | 🌟 NEW BEST AVG! (+62.04)
+[  CHILD   ] Ep 289 | Patient: child#009    | Reward:  -3211.12 | Rolling Avg:  -4049.55 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 78527  | 🌟 NEW BEST AVG! (+707.12)
+[  CHILD   ] Ep 290 | Patient: child#002    | Reward:  -2039.77 | Rolling Avg:  -3292.78 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 78815  | 🌟 NEW BEST AVG! (+756.77)
+[  CHILD   ] Ep 291 | Patient: child#003    | Reward:  -5317.36 | Rolling Avg:  -3057.26 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 79103  | 🌟 NEW BEST AVG! (+235.52)
+[  CHILD   ] Ep 292 | Patient: child#002    | Reward:  -2007.65 | Rolling Avg:  -2763.09 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 79391  | 🌟 NEW BEST AVG! (+294.17)
+[  CHILD   ] Ep 293 | Patient: child#010    | Reward:  -4234.75 | Rolling Avg:  -2501.79 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 79679  | 🌟 NEW BEST AVG! (+261.30)
+[  CHILD   ] Ep 300 | Patient: child#010    | Reward:  -1031.86 | Rolling Avg:  -4221.32 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 81695 
+[  CHILD   ] Ep 310 | Patient: child#005    | Reward:  -9367.96 | Rolling Avg:  -6982.75 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 84575 
+[  CHILD   ] Ep 320 | Patient: child#002    | Reward:  -2109.36 | Rolling Avg:  -5184.29 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 87455 
+[  CHILD   ] Ep 327 | Patient: child#009    | Reward:  -1412.10 | Rolling Avg:  -2316.48 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 89471  | 🌟 NEW BEST AVG! (+185.31)
+[  CHILD   ] Ep 330 | Patient: child#005    | Reward:  -5816.41 | Rolling Avg:  -2818.77 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 90335 
+[  CHILD   ] Ep 340 | Patient: child#005    | Reward:  -6466.17 | Rolling Avg:  -8169.38 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 93215 
+[  CHILD   ] Ep 350 | Patient: child#002    | Reward:  -2268.28 | Rolling Avg:  -4044.54 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 96095 
+[  CHILD   ] Ep 360 | Patient: child#009    | Reward:  -1597.33 | Rolling Avg:  -5828.86 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 98975 
+[  CHILD   ] Ep 370 | Patient: child#003    | Reward:  -4068.08 | Rolling Avg:  -4645.50 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 101855
+[  CHILD   ] Ep 380 | Patient: child#003    | Reward:  -1509.15 | Rolling Avg:  -5504.52 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 104735
+[  CHILD   ] Ep 390 | Patient: child#005    | Reward:  -6148.84 | Rolling Avg:  -6237.71 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 107615
+[  CHILD   ] Ep 400 | Patient: child#010    | Reward:  -5553.75 | Rolling Avg:  -8719.63 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 110495
+[  CHILD   ] Ep 410 | Patient: child#004    | Reward:  -8794.22 | Rolling Avg:  -4749.07 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 113375
+[  CHILD   ] Ep 420 | Patient: child#006    | Reward:  -6489.87 | Rolling Avg: -12593.68 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 116255
+[  CHILD   ] Ep 430 | Patient: child#005    | Reward:  -5125.47 | Rolling Avg:  -5773.55 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 119135
+[  CHILD   ] Ep 440 | Patient: child#010    | Reward:  -6624.37 | Rolling Avg:  -4255.21 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 122015
+[  CHILD   ] Ep 450 | Patient: child#009    | Reward:  -3641.05 | Rolling Avg:  -7802.85 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 124895
+[  CHILD   ] Ep 460 | Patient: child#009    | Reward:  -1801.80 | Rolling Avg:  -5059.86 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 127775
+[  CHILD   ] Ep 470 | Patient: child#009    | Reward:  -2578.68 | Rolling Avg:  -5415.17 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 130655
+[  CHILD   ] Ep 480 | Patient: child#007    | Reward:  -6166.69 | Rolling Avg:  -5575.24 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 133535
+[  CHILD   ] Ep 490 | Patient: child#004    | Reward:  -8568.49 | Rolling Avg:  -5828.12 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 136415
+[  CHILD   ] Ep 500 | Patient: child#008    | Reward:  -1395.36 | Rolling Avg:  -3536.83 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 139295
+[  CHILD   ] Ep 510 | Patient: child#004    | Reward:  -9264.57 | Rolling Avg:  -5273.20 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 142175
+[  CHILD   ] Ep 520 | Patient: child#007    | Reward:  -5809.11 | Rolling Avg:  -4721.78 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 145055
+[  CHILD   ] Ep 530 | Patient: child#007    | Reward:  -3685.23 | Rolling Avg:  -4820.96 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 147935
+[  CHILD   ] Ep 540 | Patient: child#003    | Reward:  -4472.12 | Rolling Avg:  -4542.00 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 150815
+[  CHILD   ] Ep 550 | Patient: child#009    | Reward:  -3562.06 | Rolling Avg:  -3647.95 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 153695
+[  CHILD   ] Ep 560 | Patient: child#004    | Reward:  -9791.81 | Rolling Avg:  -5827.88 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 156575
+[  CHILD   ] Ep 570 | Patient: child#002    | Reward:  -2176.10 | Rolling Avg:  -5970.78 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 159455
+[  CHILD   ] Ep 580 | Patient: child#006    | Reward:  -6227.12 | Rolling Avg:  -5286.10 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 162335
+[  CHILD   ] Ep 590 | Patient: child#010    | Reward:  -7821.40 | Rolling Avg:  -5009.63 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 165215
+[  CHILD   ] Ep 600 | Patient: child#010    | Reward:  -4938.30 | Rolling Avg:  -4861.78 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 168095
+
+======================================================================
+Training Complete! Final model saved to ./models/trainable_ensemble_child/model_final.pth
+======================================================================
+/kaggle/working/Hruthik/using_gymnasium# python test_trainable_ensemble.py --cohort child --model_path ./models/trainable_ensemble_child/best_model.pth
+
+======================================================================
+EVALUATING CLINICAL META-CONTROLLER ON CHILD COHORT
+Model Path: ./models/trainable_ensemble_child/best_model.pth
+======================================================================
+
+Evaluating Patient: child#001...
+Evaluating Patient: child#002...
+Evaluating Patient: child#003...
+Evaluating Patient: child#004...
+Evaluating Patient: child#005...
+Evaluating Patient: child#006...
+Evaluating Patient: child#007...
+Evaluating Patient: child#008...
+Evaluating Patient: child#009...
+Evaluating Patient: child#010...
+
+======================================================================
+EVALUATION COMPLETE
+======================================================================
+  Patient  TIR (%)  Hypo (%)  Severe Hypo (%)  Hyper (%)    Mean BG  Avg SAC Wt
+child#001    48.79     43.94            31.49       7.27  90.440002         0.8
+child#002    55.36     37.72            25.26       6.92  94.019997         0.8
+child#003    82.01      2.77             0.00      15.22 115.050003         0.8
+child#004    47.75     40.14            31.49      12.11 100.239998         0.8
+child#005    77.51     11.42             3.46      11.07 132.160004         0.8
+child#006    85.12      6.57             2.42       8.30 127.470001         0.8
+child#007    81.31      0.00             0.00      18.69 140.910004         0.8
+child#008    53.63     32.18            23.18      14.19 114.400002         0.8
+child#009    69.90      5.19             1.04      24.91 145.500000         0.8
+child#010    58.48      1.73             0.00      39.79 187.029999         0.8
+
+----------------------------------------------------------------------
+🎯 COHORT AVERAGES (CHILD):
+----------------------------------------------------------------------
+TIR (70-180)  : 65.99 %
+Hypo (<70)    : 18.17 %
+Sev. Hypo (<54): 11.83 %
+Hyper (>180)  : 15.85 %
+Mean BG       : 124.72 mg/dL
+Avg SAC Wt    : 0.80
+----------------------------------------------------------------------
+
+Plots and summary saved to: ./results/eval_meta_ensemble_child
+/kaggle/working/Hruthik/using_gymnasium# python generate_report_plots.py --cohort child \
+    --model_path ./models/trainable_ensemble_child/best_model.pth \
+    --days 10 \
+    --save_csv
+
+======================================================================
+  REPORT PLOTS -- CHILD | ./models/trainable_ensemble_child/best_model.pth
+  Days: 10  |  Seed: 100  |  Device: cuda
+======================================================================
+
+  Simulating child#001 (10 days)...
+    CSV -> ./results/report_plots_child/child-001.csv
+  Simulating child#002 (10 days)...
+    CSV -> ./results/report_plots_child/child-002.csv
+  Simulating child#003 (10 days)...
+    CSV -> ./results/report_plots_child/child-003.csv
+  Simulating child#004 (10 days)...
+    CSV -> ./results/report_plots_child/child-004.csv
+  Simulating child#005 (10 days)...
+    CSV -> ./results/report_plots_child/child-005.csv
+  Simulating child#006 (10 days)...
+    CSV -> ./results/report_plots_child/child-006.csv
+  Simulating child#007 (10 days)...
+    CSV -> ./results/report_plots_child/child-007.csv
+  Simulating child#008 (10 days)...
+    CSV -> ./results/report_plots_child/child-008.csv
+  Simulating child#009 (10 days)...
+    CSV -> ./results/report_plots_child/child-009.csv
+  Simulating child#010 (10 days)...
+    CSV -> ./results/report_plots_child/child-010.csv
+
+  Building MultiIndex DataFrame for simglucose report()...
+  DataFrame shape : (28800, 4)
+  Patients        : ['child#001', 'child#002', 'child#003', 'child#004', 'child#005', 'child#006', 'child#007', 'child#008', 'child#009', 'child#010']
+  Columns         : ['BG', 'CGM', 'CHO', 'insulin']
+
+  Calling simglucose report()  ->  ./results/report_plots_child/
+
+
+  [OK] BG_trace.png    saved
+  [OK] zone_stats.png  saved
+  [OK] risk_stats.png  saved
+  [OK] CVGA.png        saved
+  [OK] performance_stats.csv  saved
+  [OK] risk_trace.csv         saved
+  [OK] CVGA_stats.csv         saved
+
+======================================================================
+  PERFORMANCE STATS (from report())
+======================================================================
+           70<=BG<=180     BG>180      BG<70     BG>250      BG<50      LBGI      HBGI  Risk Index
+patient                                                                                           
+child#001    53.229167  16.180556  30.590278   6.180556  16.388889  8.176406  4.171411   12.347817
+child#002    73.715278   6.458333  19.826389   0.000000  13.611111  6.292579  1.840667    8.133246
+child#003    83.680556  14.861111   1.458333   4.618056   0.486111  0.824325  3.600434    4.424759
+child#004    64.131944  17.361111  18.506944   3.159722   8.576389  4.792503  3.604269    8.396772
+child#005    80.972222  17.256944   1.770833   0.381944   0.798611  0.599482  3.761643    4.361125
+child#006    76.180556  23.819444   0.000000   6.701389   0.000000  0.092807  5.643832    5.736639
+child#007    75.555556  22.777778   1.666667   0.173611   0.347222  0.392152  4.731318    5.123470
+child#008    73.159722  16.041667  10.798611   4.618056   6.354167  2.934698  3.960117    6.894815
+child#009    70.555556  19.895833   9.548611   2.604167   4.097222  2.702082  4.063097    6.765179
+child#010    73.333333  23.541667   3.125000  11.250000   1.145833  0.897680  6.864426    7.762105
+
+======================================================================
+  CVGA ZONE STATS
+======================================================================
+     A    B    C    D    E
+0  0.0  0.4  0.0  0.4  0.2
+
+  [OK] Summary CSV  ->  ./results/report_plots_child/report_summary.csv
+
+======================================================================
+  Patient  TIR (%)  Hypo (%)  Severe Hypo (%)  Hyper (%)  Mean BG  LBGI  HBGI  Risk Index
+child#001    53.23     30.59            19.38      16.18   116.93 8.176 4.171      12.348
+child#002    73.72     19.83            14.86       6.46   113.17 6.293 1.841       8.133
+child#003    83.68      1.46             0.52      14.86   133.40 0.824 3.600       4.425
+child#004    64.13     18.51            10.14      17.36   126.13 4.793 3.604       8.397
+child#005    80.97      1.77             0.97      17.26   145.55 0.599 3.762       4.361
+child#006    76.18      0.00             0.00      23.82   155.44 0.093 5.644       5.737
+child#007    75.56      1.67             1.01      22.78   155.96 0.392 4.731       5.123
+child#008    73.16     10.80             6.94      16.04   136.26 2.935 3.960       6.895
+child#009    70.56      9.55             4.72      19.90   134.94 2.702 4.063       6.765
+child#010    73.33      3.12             1.60      23.54   155.02 0.898 6.864       7.762
+
+----------------------------------------------------------------------
+COHORT AVERAGES  (CHILD)
+----------------------------------------------------------------------
+  TIR (%)               : 72.452
+  Hypo (%)              : 9.730
+  Severe Hypo (%)       : 6.014
+  Hyper (%)             : 17.820
+  Mean BG               : 137.280
+  LBGI                  : 2.771
+  HBGI                  : 4.224
+  Risk Index            : 6.995
+----------------------------------------------------------------------
+
+All outputs saved to: ./results/report_plots_child/
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+ /kaggle/working/Hruthik/using_gymnasium# python train_ensemble_cohort.py --cohort adolescent
+Starting TRAINABLE ENSEMBLE on ADOLESCENT cohort using cuda
+
+======================================================================
+--- TRAINING META-CONTROLLER ENSEMBLE FOR ADOLESCENT ---
+======================================================================
+[ADOLESCENT] Ep 001 | Patient: adolescent#002 | Reward: -31038.89 | Rolling Avg: -31038.89 | Ep Steps: 288 | Avg SAC Wt: 0.50 | Total Steps: 288   
+[ADOLESCENT] Ep 010 | Patient: adolescent#010 | Reward: -13501.22 | Rolling Avg: -45510.15 | Ep Steps: 66  | Avg SAC Wt: 0.72 | Total Steps: 2658   | 🌟 NEW BEST AVG! (+0.00)
+[ADOLESCENT] Ep 011 | Patient: adolescent#007 | Reward: -12914.17 | Rolling Avg: -43697.68 | Ep Steps: 288 | Avg SAC Wt: 0.79 | Total Steps: 2946   | 🌟 NEW BEST AVG! (+1812.47)
+[ADOLESCENT] Ep 013 | Patient: adolescent#001 | Reward: -14039.90 | Rolling Avg: -41713.91 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 3522   | 🌟 NEW BEST AVG! (+1983.77)
+[ADOLESCENT] Ep 014 | Patient: adolescent#002 | Reward: -28620.29 | Rolling Avg: -39981.19 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 3810   | 🌟 NEW BEST AVG! (+1732.72)
+[ADOLESCENT] Ep 016 | Patient: adolescent#004 | Reward: -67863.80 | Rolling Avg: -38396.55 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 4386   | 🌟 NEW BEST AVG! (+1584.64)
+[ADOLESCENT] Ep 018 | Patient: adolescent#010 | Reward: -11488.33 | Rolling Avg: -36176.77 | Ep Steps: 63  | Avg SAC Wt: 0.80 | Total Steps: 4737   | 🌟 NEW BEST AVG! (+2219.78)
+[ADOLESCENT] Ep 020 | Patient: adolescent#009 | Reward: -77028.75 | Rolling Avg: -43569.39 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 5313  
+[ADOLESCENT] Ep 030 | Patient: adolescent#007 | Reward: -16996.22 | Rolling Avg: -48239.93 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 7980  
+[ADOLESCENT] Ep 040 | Patient: adolescent#006 | Reward: -27619.66 | Rolling Avg: -43155.06 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 10860 
+[ADOLESCENT] Ep 045 | Patient: adolescent#008 | Reward: -42173.39 | Rolling Avg: -35416.60 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 12300  | 🌟 NEW BEST AVG! (+760.17)
+[ADOLESCENT] Ep 050 | Patient: adolescent#009 | Reward: -40715.51 | Rolling Avg: -38597.91 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 13740 
+[ADOLESCENT] Ep 056 | Patient: adolescent#002 | Reward:   4308.35 | Rolling Avg: -31132.75 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 15468  | 🌟 NEW BEST AVG! (+4283.85)
+[ADOLESCENT] Ep 057 | Patient: adolescent#001 | Reward: -41089.73 | Rolling Avg: -30337.60 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 15756  | 🌟 NEW BEST AVG! (+795.15)
+[ADOLESCENT] Ep 060 | Patient: adolescent#002 | Reward:   6788.46 | Rolling Avg: -29575.09 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 16620  | 🌟 NEW BEST AVG! (+762.52)
+[ADOLESCENT] Ep 061 | Patient: adolescent#004 | Reward: -15521.98 | Rolling Avg: -27149.29 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 16908  | 🌟 NEW BEST AVG! (+2425.79)
+[ADOLESCENT] Ep 062 | Patient: adolescent#002 | Reward:  -1697.22 | Rolling Avg: -22897.48 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 17196  | 🌟 NEW BEST AVG! (+4251.82)
+[ADOLESCENT] Ep 063 | Patient: adolescent#007 | Reward: -23148.51 | Rolling Avg: -22448.12 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 17484  | 🌟 NEW BEST AVG! (+449.35)
+[ADOLESCENT] Ep 064 | Patient: adolescent#005 | Reward: -36419.59 | Rolling Avg: -21288.09 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 17772  | 🌟 NEW BEST AVG! (+1160.04)
+[ADOLESCENT] Ep 065 | Patient: adolescent#008 | Reward:  -4291.94 | Rolling Avg: -17250.81 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 18060  | 🌟 NEW BEST AVG! (+4037.28)
+[ADOLESCENT] Ep 070 | Patient: adolescent#004 | Reward: -49877.96 | Rolling Avg: -25153.54 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 19500 
+[ADOLESCENT] Ep 080 | Patient: adolescent#005 | Reward: -52661.99 | Rolling Avg: -30157.42 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 22267 
+[ADOLESCENT] Ep 090 | Patient: adolescent#002 | Reward:   9456.71 | Rolling Avg: -40192.14 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 25147 
+[ADOLESCENT] Ep 100 | Patient: adolescent#003 | Reward: -17667.45 | Rolling Avg: -31096.37 | Ep Steps: 121 | Avg SAC Wt: 0.80 | Total Steps: 27705 
+[ADOLESCENT] Ep 110 | Patient: adolescent#004 | Reward: -75484.49 | Rolling Avg: -42433.49 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 30218 
+[ADOLESCENT] Ep 120 | Patient: adolescent#010 | Reward: -18385.35 | Rolling Avg: -26896.69 | Ep Steps: 104 | Avg SAC Wt: 0.80 | Total Steps: 32344 
+[ADOLESCENT] Ep 130 | Patient: adolescent#002 | Reward: -35149.45 | Rolling Avg: -34037.18 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 35040 
+[ADOLESCENT] Ep 140 | Patient: adolescent#005 | Reward: -49754.86 | Rolling Avg: -38982.73 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 37746 
+[ADOLESCENT] Ep 150 | Patient: adolescent#006 | Reward: -45264.96 | Rolling Avg: -57210.67 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 40449 
+[ADOLESCENT] Ep 160 | Patient: adolescent#006 | Reward: -49583.25 | Rolling Avg: -45296.00 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 43329 
+[ADOLESCENT] Ep 170 | Patient: adolescent#009 | Reward: -76084.67 | Rolling Avg: -48599.05 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 46209 
+[ADOLESCENT] Ep 180 | Patient: adolescent#004 | Reward: -42693.16 | Rolling Avg: -38473.17 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 48725 
+[ADOLESCENT] Ep 190 | Patient: adolescent#004 | Reward: -43024.11 | Rolling Avg: -43391.95 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 51605 
+[ADOLESCENT] Ep 200 | Patient: adolescent#001 | Reward: -41697.31 | Rolling Avg: -39069.38 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 54485 
+[ADOLESCENT] Ep 210 | Patient: adolescent#005 | Reward: -48524.34 | Rolling Avg: -33282.75 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 57365 
+[ADOLESCENT] Ep 220 | Patient: adolescent#007 | Reward: -11792.10 | Rolling Avg: -25416.36 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 60245 
+[ADOLESCENT] Ep 224 | Patient: adolescent#007 | Reward: -16522.14 | Rolling Avg: -16660.39 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 61397  | 🌟 NEW BEST AVG! (+590.42)
+[ADOLESCENT] Ep 225 | Patient: adolescent#006 | Reward:  -2392.03 | Rolling Avg: -13430.97 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 61685  | 🌟 NEW BEST AVG! (+3229.42)
+[ADOLESCENT] Ep 226 | Patient: adolescent#007 | Reward: -25515.38 | Rolling Avg: -10593.54 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 61973  | 🌟 NEW BEST AVG! (+2837.43)
+[ADOLESCENT] Ep 227 | Patient: adolescent#007 | Reward:    702.55 | Rolling Avg: -10221.52 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 62261  | 🌟 NEW BEST AVG! (+372.02)
+[ADOLESCENT] Ep 228 | Patient: adolescent#008 | Reward:   1267.64 | Rolling Avg:  -9627.86 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 62549  | 🌟 NEW BEST AVG! (+593.66)
+[ADOLESCENT] Ep 230 | Patient: adolescent#002 | Reward:   3233.59 | Rolling Avg:  -9535.86 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 63125  | 🌟 NEW BEST AVG! (+92.00)
+[ADOLESCENT] Ep 240 | Patient: adolescent#003 | Reward: -15929.67 | Rolling Avg: -13887.20 | Ep Steps: 268 | Avg SAC Wt: 0.80 | Total Steps: 65985 
+[ADOLESCENT] Ep 246 | Patient: adolescent#002 | Reward: -10197.92 | Rolling Avg:  -9426.74 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 67713  | 🌟 NEW BEST AVG! (+109.11)
+[ADOLESCENT] Ep 248 | Patient: adolescent#009 | Reward:   1115.91 | Rolling Avg:  -7320.50 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 68289  | 🌟 NEW BEST AVG! (+2106.24)
+[ADOLESCENT] Ep 249 | Patient: adolescent#002 | Reward:  -1889.71 | Rolling Avg:  -6905.07 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 68577  | 🌟 NEW BEST AVG! (+415.43)
+[ADOLESCENT] Ep 250 | Patient: adolescent#001 | Reward: -10810.91 | Rolling Avg:  -6393.19 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 68865  | 🌟 NEW BEST AVG! (+511.88)
+[ADOLESCENT] Ep 251 | Patient: adolescent#009 | Reward:  -5478.47 | Rolling Avg:  -5403.88 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 69153  | 🌟 NEW BEST AVG! (+989.31)
+[ADOLESCENT] Ep 252 | Patient: adolescent#001 | Reward: -12957.93 | Rolling Avg:  -5065.53 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 69441  | 🌟 NEW BEST AVG! (+338.36)
+[ADOLESCENT] Ep 253 | Patient: adolescent#002 | Reward:  -1446.82 | Rolling Avg:  -5020.32 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 69729  | 🌟 NEW BEST AVG! (+45.20)
+[ADOLESCENT] Ep 260 | Patient: adolescent#007 | Reward:  -5012.10 | Rolling Avg: -11555.34 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 71745 
+[ADOLESCENT] Ep 270 | Patient: adolescent#009 | Reward:  -4884.86 | Rolling Avg:  -7982.71 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 74625 
+[ADOLESCENT] Ep 280 | Patient: adolescent#006 | Reward:  -4109.26 | Rolling Avg:  -8100.88 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 77505 
+[ADOLESCENT] Ep 284 | Patient: adolescent#008 | Reward:  -3458.20 | Rolling Avg:  -3886.34 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 78657  | 🌟 NEW BEST AVG! (+1133.98)
+[ADOLESCENT] Ep 285 | Patient: adolescent#009 | Reward:  -9570.37 | Rolling Avg:  -2849.05 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 78945  | 🌟 NEW BEST AVG! (+1037.29)
+[ADOLESCENT] Ep 290 | Patient: adolescent#002 | Reward:   1364.24 | Rolling Avg:  -4128.05 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 80330 
+[ADOLESCENT] Ep 300 | Patient: adolescent#010 | Reward: -25410.81 | Rolling Avg: -14819.36 | Ep Steps: 234 | Avg SAC Wt: 0.80 | Total Steps: 83122 
+[ADOLESCENT] Ep 310 | Patient: adolescent#005 | Reward: -11252.04 | Rolling Avg: -17572.03 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 86002 
+[ADOLESCENT] Ep 320 | Patient: adolescent#002 | Reward:    443.06 | Rolling Avg:  -6919.05 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 88842 
+[ADOLESCENT] Ep 330 | Patient: adolescent#005 | Reward: -36189.13 | Rolling Avg:  -9739.74 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 91722 
+[ADOLESCENT] Ep 340 | Patient: adolescent#005 | Reward:  -9181.14 | Rolling Avg:  -4550.35 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 94535 
+[ADOLESCENT] Ep 347 | Patient: adolescent#003 | Reward:    570.57 | Rolling Avg:  -1857.13 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 96551  | 🌟 NEW BEST AVG! (+991.92)
+[ADOLESCENT] Ep 350 | Patient: adolescent#002 | Reward:  -2125.03 | Rolling Avg:  -1362.34 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 97415  | 🌟 NEW BEST AVG! (+494.79)
+[ADOLESCENT] Ep 351 | Patient: adolescent#009 | Reward:  -1674.64 | Rolling Avg:   -956.00 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 97703  | 🌟 NEW BEST AVG! (+406.33)
+[ADOLESCENT] Ep 353 | Patient: adolescent#005 | Reward:   4362.21 | Rolling Avg:   -672.32 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 98279  | 🌟 NEW BEST AVG! (+283.69)
+[ADOLESCENT] Ep 354 | Patient: adolescent#005 | Reward:  -2285.49 | Rolling Avg:   -563.01 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 98567  | 🌟 NEW BEST AVG! (+109.31)
+[ADOLESCENT] Ep 355 | Patient: adolescent#010 | Reward:   1064.99 | Rolling Avg:   -386.93 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 98855  | 🌟 NEW BEST AVG! (+176.07)
+[ADOLESCENT] Ep 360 | Patient: adolescent#009 | Reward:   -152.68 | Rolling Avg:  -1474.11 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 100295
+[ADOLESCENT] Ep 370 | Patient: adolescent#003 | Reward: -18801.56 | Rolling Avg:  -3768.62 | Ep Steps: 226 | Avg SAC Wt: 0.80 | Total Steps: 103113
+[ADOLESCENT] Ep 380 | Patient: adolescent#003 | Reward:  -2073.63 | Rolling Avg:  -1678.12 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 105993
+[ADOLESCENT] Ep 390 | Patient: adolescent#005 | Reward:   2956.22 | Rolling Avg:  -4923.73 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 108873
+[ADOLESCENT] Ep 400 | Patient: adolescent#010 | Reward: -27048.29 | Rolling Avg:  -8344.68 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 111753
+[ADOLESCENT] Ep 410 | Patient: adolescent#004 | Reward: -41782.62 | Rolling Avg:  -7720.86 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 114633
+[ADOLESCENT] Ep 420 | Patient: adolescent#006 | Reward:   2653.36 | Rolling Avg:  -6487.24 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 117513
+[ADOLESCENT] Ep 430 | Patient: adolescent#005 | Reward: -39263.96 | Rolling Avg: -18110.34 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 120393
+[ADOLESCENT] Ep 440 | Patient: adolescent#010 | Reward:  -9192.50 | Rolling Avg:  -1340.54 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 123273
+[ADOLESCENT] Ep 450 | Patient: adolescent#009 | Reward:   6620.23 | Rolling Avg:   -490.00 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 126077
+[ADOLESCENT] Ep 451 | Patient: adolescent#002 | Reward:   3157.29 | Rolling Avg:   -128.03 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 126365 | 🌟 NEW BEST AVG! (+258.90)
+[ADOLESCENT] Ep 452 | Patient: adolescent#007 | Reward:   9564.68 | Rolling Avg:   2032.66 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 126653 | 🌟 NEW BEST AVG! (+2160.69)
+[ADOLESCENT] Ep 460 | Patient: adolescent#009 | Reward:   9800.19 | Rolling Avg:  -5500.68 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 128952
+[ADOLESCENT] Ep 470 | Patient: adolescent#009 | Reward:   9547.02 | Rolling Avg:  -3896.62 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 131832
+[ADOLESCENT] Ep 480 | Patient: adolescent#007 | Reward:   2631.73 | Rolling Avg:   -770.41 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 134712
+[ADOLESCENT] Ep 481 | Patient: adolescent#003 | Reward:   8412.46 | Rolling Avg:   2245.09 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 135000 | 🌟 NEW BEST AVG! (+212.43)
+[ADOLESCENT] Ep 490 | Patient: adolescent#004 | Reward: -41544.05 | Rolling Avg: -10411.13 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 137592
+[ADOLESCENT] Ep 500 | Patient: adolescent#008 | Reward:   6787.23 | Rolling Avg:   -808.32 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 140430
+[ADOLESCENT] Ep 510 | Patient: adolescent#004 | Reward: -39712.29 | Rolling Avg:  -8757.98 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 143310
+[ADOLESCENT] Ep 520 | Patient: adolescent#007 | Reward:  -5288.61 | Rolling Avg:  -2314.48 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 146190
+[ADOLESCENT] Ep 530 | Patient: adolescent#007 | Reward:   8624.83 | Rolling Avg:   1502.52 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 149070
+[ADOLESCENT] Ep 532 | Patient: adolescent#003 | Reward:   6041.68 | Rolling Avg:   4392.69 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 149646 | 🌟 NEW BEST AVG! (+2147.59)
+[ADOLESCENT] Ep 533 | Patient: adolescent#009 | Reward:   9206.63 | Rolling Avg:   5115.84 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 149934 | 🌟 NEW BEST AVG! (+723.15)
+[ADOLESCENT] Ep 540 | Patient: adolescent#003 | Reward:   9232.34 | Rolling Avg:   3984.42 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 151950
+[ADOLESCENT] Ep 544 | Patient: adolescent#010 | Reward:   6872.58 | Rolling Avg:   5231.87 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 153102 | 🌟 NEW BEST AVG! (+116.03)
+[ADOLESCENT] Ep 545 | Patient: adolescent#006 | Reward:   6571.18 | Rolling Avg:   8007.58 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 153390 | 🌟 NEW BEST AVG! (+2775.71)
+[ADOLESCENT] Ep 550 | Patient: adolescent#009 | Reward:  10969.66 | Rolling Avg:   6017.51 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 154830
+[ADOLESCENT] Ep 560 | Patient: adolescent#004 | Reward:    379.11 | Rolling Avg:   2173.87 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 157710
+[ADOLESCENT] Ep 570 | Patient: adolescent#002 | Reward:  -2309.13 | Rolling Avg:   4600.52 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 160590
+[ADOLESCENT] Ep 580 | Patient: adolescent#006 | Reward:   7213.59 | Rolling Avg:   5928.23 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 163470
+[ADOLESCENT] Ep 590 | Patient: adolescent#010 | Reward:   2148.22 | Rolling Avg:   6301.45 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 166350
+[ADOLESCENT] Ep 600 | Patient: adolescent#010 | Reward:   3871.92 | Rolling Avg:   7250.93 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 169230
+
+======================================================================
+Training Complete! Final model saved to ./models/trainable_ensemble_adolescent/model_final.pth
+======================================================================
+/kaggle/working/Hruthik/using_gymnasium# python test_trainable_ensemble.py --cohort adolescent --model_path ./models/trainable_ensemble_adolescent/best_model.pth
+
+======================================================================
+EVALUATING CLINICAL META-CONTROLLER ON ADOLESCENT COHORT
+Model Path: ./models/trainable_ensemble_adolescent/best_model.pth
+======================================================================
+
+Evaluating Patient: adolescent#001...
+Evaluating Patient: adolescent#002...
+Evaluating Patient: adolescent#003...
+Evaluating Patient: adolescent#004...
+Evaluating Patient: adolescent#005...
+Evaluating Patient: adolescent#006...
+Evaluating Patient: adolescent#007...
+Evaluating Patient: adolescent#008...
+Evaluating Patient: adolescent#009...
+Evaluating Patient: adolescent#010...
+
+======================================================================
+EVALUATION COMPLETE
+======================================================================
+       Patient  TIR (%)  Hypo (%)  Severe Hypo (%)  Hyper (%)    Mean BG  Avg SAC Wt
+adolescent#001   100.00      0.00             0.00       0.00 120.339996         0.8
+adolescent#002    74.05      1.04             0.00      24.91 160.369995         0.8
+adolescent#003    67.47     32.53            12.80       0.00  90.510002         0.8
+adolescent#004    89.27      0.00             0.00      10.73 131.750000         0.8
+adolescent#005    82.01      1.04             0.00      16.96 133.320007         0.8
+adolescent#006    92.04      1.38             0.00       6.57 132.720001         0.8
+adolescent#007    87.20      0.00             0.00      12.80 146.080002         0.8
+adolescent#008    69.20      0.00             0.00      30.80 157.059998         0.8
+adolescent#009   100.00      0.00             0.00       0.00 139.869995         0.8
+adolescent#010    67.82     17.99            12.46      14.19 128.250000         0.8
+
+----------------------------------------------------------------------
+🎯 COHORT AVERAGES (ADOLESCENT):
+----------------------------------------------------------------------
+TIR (70-180)  : 82.91 %
+Hypo (<70)    : 5.40 %
+Sev. Hypo (<54): 2.53 %
+Hyper (>180)  : 11.70 %
+Mean BG       : 134.03 mg/dL
+Avg SAC Wt    : 0.80
+----------------------------------------------------------------------
+
+Plots and summary saved to: ./results/eval_meta_ensemble_adolescent
+/kaggle/working/Hruthik/using_gymnasium# python generate_report_plots.py --cohort adolescent \
+    --model_path ./models/trainable_ensemble_adolescent/best_model.pth \
+    --days 10 \
+    --save_csv
+
+======================================================================
+  REPORT PLOTS -- ADOLESCENT | ./models/trainable_ensemble_adolescent/best_model.pth
+  Days: 10  |  Seed: 100  |  Device: cuda
+======================================================================
+
+  Simulating adolescent#001 (10 days)...
+    CSV -> ./results/report_plots_adolescent/adolescent-001.csv
+  Simulating adolescent#002 (10 days)...
+    CSV -> ./results/report_plots_adolescent/adolescent-002.csv
+  Simulating adolescent#003 (10 days)...
+    CSV -> ./results/report_plots_adolescent/adolescent-003.csv
+  Simulating adolescent#004 (10 days)...
+    CSV -> ./results/report_plots_adolescent/adolescent-004.csv
+  Simulating adolescent#005 (10 days)...
+    CSV -> ./results/report_plots_adolescent/adolescent-005.csv
+  Simulating adolescent#006 (10 days)...
+    CSV -> ./results/report_plots_adolescent/adolescent-006.csv
+  Simulating adolescent#007 (10 days)...
+    CSV -> ./results/report_plots_adolescent/adolescent-007.csv
+  Simulating adolescent#008 (10 days)...
+    CSV -> ./results/report_plots_adolescent/adolescent-008.csv
+  Simulating adolescent#009 (10 days)...
+    CSV -> ./results/report_plots_adolescent/adolescent-009.csv
+  Simulating adolescent#010 (10 days)...
+    CSV -> ./results/report_plots_adolescent/adolescent-010.csv
+
+  Building MultiIndex DataFrame for simglucose report()...
+  DataFrame shape : (27900, 4)
+  Patients        : ['adolescent#001', 'adolescent#002', 'adolescent#003', 'adolescent#004', 'adolescent#005', 'adolescent#006', 'adolescent#007', 'adolescent#008', 'adolescent#009', 'adolescent#010']
+  Columns         : ['BG', 'CGM', 'CHO', 'insulin']
+
+  Calling simglucose report()  ->  ./results/report_plots_adolescent/
+
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in greater
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in less
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in greater_equal
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in less_equal
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in greater
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/internals/blocks.py:393: RuntimeWarning: invalid value encountered in log
+  result = func(self.values, **kwargs)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in greater
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/internals/blocks.py:393: RuntimeWarning: invalid value encountered in log
+  result = func(self.values, **kwargs)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in greater
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/internals/blocks.py:393: RuntimeWarning: invalid value encountered in log
+  result = func(self.values, **kwargs)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in greater
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/internals/blocks.py:393: RuntimeWarning: invalid value encountered in log
+  result = func(self.values, **kwargs)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in greater
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/internals/blocks.py:393: RuntimeWarning: invalid value encountered in log
+  result = func(self.values, **kwargs)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in greater
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/internals/blocks.py:393: RuntimeWarning: invalid value encountered in log
+  result = func(self.values, **kwargs)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in greater
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/internals/blocks.py:393: RuntimeWarning: invalid value encountered in log
+  result = func(self.values, **kwargs)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in greater
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/internals/blocks.py:393: RuntimeWarning: invalid value encountered in log
+  result = func(self.values, **kwargs)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in greater
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/internals/blocks.py:393: RuntimeWarning: invalid value encountered in log
+  result = func(self.values, **kwargs)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in greater
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/internals/blocks.py:393: RuntimeWarning: invalid value encountered in log
+  result = func(self.values, **kwargs)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in greater
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/internals/blocks.py:393: RuntimeWarning: invalid value encountered in log
+  result = func(self.values, **kwargs)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in greater
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/internals/blocks.py:393: RuntimeWarning: invalid value encountered in log
+  result = func(self.values, **kwargs)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in greater
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/internals/blocks.py:393: RuntimeWarning: invalid value encountered in log
+  result = func(self.values, **kwargs)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in greater
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/internals/blocks.py:393: RuntimeWarning: invalid value encountered in log
+  result = func(self.values, **kwargs)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in less
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/pandas/core/computation/expressions.py:73: RuntimeWarning: invalid value encountered in greater
+  return op(a, b)
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:206: RuntimeWarning: invalid value encountered in less
+  BG_min[BG_min < 50] = 50
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:207: RuntimeWarning: invalid value encountered in greater
+  BG_min[BG_min > 400] = 400
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:208: RuntimeWarning: invalid value encountered in less
+  BG_max[BG_max < 50] = 50
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:209: RuntimeWarning: invalid value encountered in greater
+  BG_max[BG_max > 400] = 400
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:211: RuntimeWarning: invalid value encountered in greater
+  perA = ((BG_min > 90) & (BG_min <= 110) & (BG_max >= 110)
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:211: RuntimeWarning: invalid value encountered in less_equal
+  perA = ((BG_min > 90) & (BG_min <= 110) & (BG_max >= 110)
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:211: RuntimeWarning: invalid value encountered in greater_equal
+  perA = ((BG_min > 90) & (BG_min <= 110) & (BG_max >= 110)
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:212: RuntimeWarning: invalid value encountered in less
+  & (BG_max < 180)).sum() / float(len(BG_min))
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:213: RuntimeWarning: invalid value encountered in greater
+  perB = ((BG_min > 70) & (BG_min <= 110) & (BG_max >= 110)
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:213: RuntimeWarning: invalid value encountered in less_equal
+  perB = ((BG_min > 70) & (BG_min <= 110) & (BG_max >= 110)
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:213: RuntimeWarning: invalid value encountered in greater_equal
+  perB = ((BG_min > 70) & (BG_min <= 110) & (BG_max >= 110)
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:214: RuntimeWarning: invalid value encountered in less
+  & (BG_max < 300)).sum() / float(len(BG_min)) - perA
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:215: RuntimeWarning: invalid value encountered in greater
+  perC = (((BG_min > 90) & (BG_min <= 110) & (BG_max >= 300)) |
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:215: RuntimeWarning: invalid value encountered in less_equal
+  perC = (((BG_min > 90) & (BG_min <= 110) & (BG_max >= 300)) |
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:215: RuntimeWarning: invalid value encountered in greater_equal
+  perC = (((BG_min > 90) & (BG_min <= 110) & (BG_max >= 300)) |
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:216: RuntimeWarning: invalid value encountered in less_equal
+  ((BG_min <= 70) & (BG_max >= 110) &
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:216: RuntimeWarning: invalid value encountered in greater_equal
+  ((BG_min <= 70) & (BG_max >= 110) &
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:217: RuntimeWarning: invalid value encountered in less
+  (BG_max < 180))).sum() / float(len(BG_min))
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:218: RuntimeWarning: invalid value encountered in greater
+  perD = (((BG_min > 70) & (BG_min <= 90) & (BG_max >= 300)) |
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:218: RuntimeWarning: invalid value encountered in less_equal
+  perD = (((BG_min > 70) & (BG_min <= 90) & (BG_max >= 300)) |
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:218: RuntimeWarning: invalid value encountered in greater_equal
+  perD = (((BG_min > 70) & (BG_min <= 90) & (BG_max >= 300)) |
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:219: RuntimeWarning: invalid value encountered in less_equal
+  ((BG_min <= 70) & (BG_max >= 180) &
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:219: RuntimeWarning: invalid value encountered in greater_equal
+  ((BG_min <= 70) & (BG_max >= 180) &
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:220: RuntimeWarning: invalid value encountered in less
+  (BG_max < 300))).sum() / float(len(BG_min))
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:221: RuntimeWarning: invalid value encountered in less_equal
+  perE = ((BG_min <= 70) & (BG_max >= 300)).sum() / float(len(BG_min))
+/usr/local/lib/python3.11/dist-packages/simglucose/analysis/report.py:221: RuntimeWarning: invalid value encountered in greater_equal
+  perE = ((BG_min <= 70) & (BG_max >= 300)).sum() / float(len(BG_min))
+
+  [OK] BG_trace.png    saved
+  [OK] zone_stats.png  saved
+  [OK] risk_stats.png  saved
+  [OK] CVGA.png        saved
+  [OK] performance_stats.csv  saved
+  [OK] risk_trace.csv         saved
+  [OK] CVGA_stats.csv         saved
+
+======================================================================
+  PERFORMANCE STATS (from report())
+======================================================================
+                70<=BG<=180     BG>180      BG<70    BG>250      BG<50       LBGI      HBGI  Risk Index
+patient                                                                                                
+adolescent#001    85.763889   0.034722  11.076389  0.000000   1.666667   2.703398  0.704173    3.407571
+adolescent#002    71.770833  14.861111  10.243056  1.180556   4.513889   2.760195  3.586534    6.346729
+adolescent#003    58.229167   1.388889  37.256944  0.000000  21.319444  10.944342  0.994736   11.939078
+adolescent#004    85.381944   7.743056   3.750000  0.000000   0.173611   0.937847  2.253796    3.191643
+adolescent#005    81.215278   9.444444   6.215278  1.354167   3.090278   2.166009  2.461846    4.627854
+adolescent#006    83.576389   7.604167   5.694444  0.104167   1.666667   1.498623  2.122089    3.620712
+adolescent#007    80.104167   9.201389   7.569444  0.486111   2.500000   1.734135  2.658104    4.392240
+adolescent#008    81.284722  12.430556   3.159722  1.041667   0.659722   0.743586  3.070075    3.813661
+adolescent#009    92.812500   1.701389   2.361111  0.000000   0.173611   0.958846  1.089331    2.048176
+adolescent#010    76.215278   2.881944  17.777778  0.000000   9.548611   5.406317  1.422479    6.828796
+
+======================================================================
+  CVGA ZONE STATS
+======================================================================
+     A    B    C    D    E
+0  0.0  0.0  0.0  0.0  0.0
+
+  [OK] Summary CSV  ->  ./results/report_plots_adolescent/report_summary.csv
+
+======================================================================
+       Patient  TIR (%)  Hypo (%)  Severe Hypo (%)  Hyper (%)  Mean BG   LBGI  HBGI  Risk Index
+adolescent#001    88.89     11.08             2.67       0.03   109.40  2.618 0.716       3.334
+adolescent#002    73.44     10.24             5.17      16.32   137.78  2.684 3.833       6.517
+adolescent#003    60.11     38.46            24.66       1.43    93.03 10.870 0.992      11.862
+adolescent#004    87.29      3.75             0.52       8.96   130.15  0.918 2.360       3.278
+adolescent#005    83.02      6.22             3.82      10.76   126.67  2.126 2.676       4.802
+adolescent#006    85.97      5.69             2.08       8.33   128.20  1.458 2.180       3.637
+adolescent#007    81.88      7.57             3.54      10.56   135.60  1.686 2.916       4.602
+adolescent#008    83.06      3.16             0.83      13.78   138.91  0.725 3.300       4.026
+adolescent#009    95.14      2.36             0.24       2.50   118.95  0.955 1.171       2.127
+adolescent#010    78.83     18.22            11.35       2.95   112.38  5.182 1.424       6.606
+
+----------------------------------------------------------------------
+COHORT AVERAGES  (ADOLESCENT)
+----------------------------------------------------------------------
+  TIR (%)               : 81.763
+  Hypo (%)              : 10.675
+  Severe Hypo (%)       : 5.488
+  Hyper (%)             : 7.562
+  Mean BG               : 123.107
+  LBGI                  : 2.922
+  HBGI                  : 2.157
+  Risk Index            : 5.079
+----------------------------------------------------------------------
+
+All outputs saved to: ./results/report_plots_adolescent/
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+ python train_ensemble_cohort.py --cohort adult
+Starting TRAINABLE ENSEMBLE on ADULT cohort using cuda
+
+======================================================================
+--- TRAINING META-CONTROLLER ENSEMBLE FOR ADULT ---
+======================================================================
+[  ADULT   ] Ep 001 | Patient: adult#002    | Reward: -46184.71 | Rolling Avg: -46184.71 | Ep Steps: 288 | Avg SAC Wt: 0.50 | Total Steps: 288   
+[  ADULT   ] Ep 010 | Patient: adult#010    | Reward: -50972.00 | Rolling Avg: -42250.99 | Ep Steps: 288 | Avg SAC Wt: 0.50 | Total Steps: 1855  
+[  ADULT   ] Ep 014 | Patient: adult#002    | Reward: -49751.52 | Rolling Avg: -47910.17 | Ep Steps: 288 | Avg SAC Wt: 0.64 | Total Steps: 2635   | 🌟 NEW BEST AVG! (+0.00)
+[  ADULT   ] Ep 015 | Patient: adult#004    | Reward: -101665.81 | Rolling Avg: -47818.77 | Ep Steps: 288 | Avg SAC Wt: 0.79 | Total Steps: 2923   | 🌟 NEW BEST AVG! (+91.40)
+[  ADULT   ] Ep 020 | Patient: adult#009    | Reward: -19800.76 | Rolling Avg: -54839.24 | Ep Steps: 100 | Avg SAC Wt: 0.80 | Total Steps: 3979  
+[  ADULT   ] Ep 026 | Patient: adult#010    | Reward: -51015.36 | Rolling Avg: -46474.03 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 5080   | 🌟 NEW BEST AVG! (+1344.74)
+[  ADULT   ] Ep 027 | Patient: adult#005    | Reward: -15534.12 | Rolling Avg: -46101.20 | Ep Steps: 84  | Avg SAC Wt: 0.80 | Total Steps: 5164   | 🌟 NEW BEST AVG! (+372.83)
+[  ADULT   ] Ep 029 | Patient: adult#003    | Reward:  -6529.77 | Rolling Avg: -41249.53 | Ep Steps: 51  | Avg SAC Wt: 0.80 | Total Steps: 5503   | 🌟 NEW BEST AVG! (+4851.67)
+[  ADULT   ] Ep 030 | Patient: adult#007    | Reward: -16624.92 | Rolling Avg: -40931.95 | Ep Steps: 60  | Avg SAC Wt: 0.80 | Total Steps: 5563   | 🌟 NEW BEST AVG! (+317.58)
+[  ADULT   ] Ep 031 | Patient: adult#006    | Reward: -69528.68 | Rolling Avg: -38650.09 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 5851   | 🌟 NEW BEST AVG! (+2281.86)
+[  ADULT   ] Ep 032 | Patient: adult#005    | Reward: -17537.61 | Rolling Avg: -38336.49 | Ep Steps: 88  | Avg SAC Wt: 0.80 | Total Steps: 5939   | 🌟 NEW BEST AVG! (+313.59)
+[  ADULT   ] Ep 033 | Patient: adult#003    | Reward:  -6930.73 | Rolling Avg: -37225.54 | Ep Steps: 53  | Avg SAC Wt: 0.80 | Total Steps: 5992   | 🌟 NEW BEST AVG! (+1110.95)
+[  ADULT   ] Ep 034 | Patient: adult#004    | Reward: -91198.05 | Rolling Avg: -36489.96 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 6280   | 🌟 NEW BEST AVG! (+735.59)
+[  ADULT   ] Ep 040 | Patient: adult#006    | Reward: -20155.90 | Rolling Avg: -45940.48 | Ep Steps: 74  | Avg SAC Wt: 0.80 | Total Steps: 7573  
+[  ADULT   ] Ep 046 | Patient: adult#009    | Reward: -17879.29 | Rolling Avg: -34785.37 | Ep Steps: 89  | Avg SAC Wt: 0.80 | Total Steps: 8548   | 🌟 NEW BEST AVG! (+1704.59)
+[  ADULT   ] Ep 050 | Patient: adult#009    | Reward: -20239.48 | Rolling Avg: -38830.73 | Ep Steps: 94  | Avg SAC Wt: 0.80 | Total Steps: 9280  
+[  ADULT   ] Ep 060 | Patient: adult#002    | Reward: -47706.12 | Rolling Avg: -61169.47 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 11938 
+[  ADULT   ] Ep 069 | Patient: adult#006    | Reward:  11027.35 | Rolling Avg: -29723.09 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 14025  | 🌟 NEW BEST AVG! (+5062.28)
+[  ADULT   ] Ep 070 | Patient: adult#004    | Reward: -75097.78 | Rolling Avg: -32462.25 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 14313 
+[  ADULT   ] Ep 071 | Patient: adult#005    | Reward:  12798.90 | Rolling Avg: -21570.49 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 14601  | 🌟 NEW BEST AVG! (+8152.59)
+[  ADULT   ] Ep 072 | Patient: adult#002    | Reward:  -6373.44 | Rolling Avg: -16261.13 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 14889  | 🌟 NEW BEST AVG! (+5309.37)
+[  ADULT   ] Ep 073 | Patient: adult#010    | Reward:  -7245.08 | Rolling Avg: -14969.06 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 15177  | 🌟 NEW BEST AVG! (+1292.07)
+[  ADULT   ] Ep 074 | Patient: adult#003    | Reward:   -528.72 | Rolling Avg: -12449.24 | Ep Steps: 115 | Avg SAC Wt: 0.80 | Total Steps: 15292  | 🌟 NEW BEST AVG! (+2519.82)
+[  ADULT   ] Ep 075 | Patient: adult#009    | Reward:  -6700.32 | Rolling Avg: -11780.93 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 15580  | 🌟 NEW BEST AVG! (+668.30)
+[  ADULT   ] Ep 080 | Patient: adult#005    | Reward:   -561.73 | Rolling Avg:  -9633.36 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 16880  | 🌟 NEW BEST AVG! (+2147.57)
+[  ADULT   ] Ep 090 | Patient: adult#002    | Reward: -27333.93 | Rolling Avg: -27928.62 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 19475 
+[  ADULT   ] Ep 100 | Patient: adult#003    | Reward:   3070.37 | Rolling Avg: -23788.59 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 21823 
+[  ADULT   ] Ep 104 | Patient: adult#005    | Reward:  -5145.29 | Rolling Avg:  -6395.28 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 22808  | 🌟 NEW BEST AVG! (+3238.08)
+[  ADULT   ] Ep 105 | Patient: adult#010    | Reward:  -4285.62 | Rolling Avg:  -5863.04 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 23096  | 🌟 NEW BEST AVG! (+532.25)
+[  ADULT   ] Ep 110 | Patient: adult#004    | Reward: -10707.49 | Rolling Avg:  -8323.74 | Ep Steps: 116 | Avg SAC Wt: 0.80 | Total Steps: 24005 
+[  ADULT   ] Ep 120 | Patient: adult#010    | Reward:  -8549.09 | Rolling Avg: -13878.67 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 26480 
+[  ADULT   ] Ep 130 | Patient: adult#002    | Reward:    843.89 | Rolling Avg:  -8424.05 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 28784 
+[  ADULT   ] Ep 131 | Patient: adult#009    | Reward:  -7396.58 | Rolling Avg:  -5609.23 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 29072  | 🌟 NEW BEST AVG! (+253.81)
+[  ADULT   ] Ep 132 | Patient: adult#005    | Reward:  -9550.99 | Rolling Avg:  -5148.23 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 29360  | 🌟 NEW BEST AVG! (+461.00)
+[  ADULT   ] Ep 133 | Patient: adult#006    | Reward: -12058.10 | Rolling Avg:  -4952.84 | Ep Steps: 261 | Avg SAC Wt: 0.80 | Total Steps: 29621  | 🌟 NEW BEST AVG! (+195.39)
+[  ADULT   ] Ep 134 | Patient: adult#002    | Reward:  -6010.99 | Rolling Avg:  -4778.16 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 29909  | 🌟 NEW BEST AVG! (+174.67)
+[  ADULT   ] Ep 135 | Patient: adult#005    | Reward:  -3033.56 | Rolling Avg:  -4211.83 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 30197  | 🌟 NEW BEST AVG! (+566.33)
+[  ADULT   ] Ep 140 | Patient: adult#005    | Reward:   -357.68 | Rolling Avg:  -7536.59 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 31220 
+[  ADULT   ] Ep 146 | Patient: adult#009    | Reward:  -3264.05 | Rolling Avg:  -3647.39 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 32948  | 🌟 NEW BEST AVG! (+564.44)
+[  ADULT   ] Ep 147 | Patient: adult#010    | Reward:  -5385.32 | Rolling Avg:  -3298.96 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 33236  | 🌟 NEW BEST AVG! (+348.43)
+[  ADULT   ] Ep 150 | Patient: adult#006    | Reward: -10523.86 | Rolling Avg: -14968.89 | Ep Steps: 243 | Avg SAC Wt: 0.80 | Total Steps: 34055 
+[  ADULT   ] Ep 160 | Patient: adult#006    | Reward: -16710.07 | Rolling Avg:  -8935.93 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 36924 
+[  ADULT   ] Ep 170 | Patient: adult#009    | Reward:    650.86 | Rolling Avg: -22190.15 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 39796 
+[  ADULT   ] Ep 180 | Patient: adult#004    | Reward: -85530.94 | Rolling Avg: -15208.08 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 42420 
+[  ADULT   ] Ep 190 | Patient: adult#004    | Reward: -83692.80 | Rolling Avg: -15012.83 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 44473 
+[  ADULT   ] Ep 200 | Patient: adult#001    | Reward:   8775.82 | Rolling Avg: -28879.29 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 47314 
+[  ADULT   ] Ep 210 | Patient: adult#005    | Reward:   4296.76 | Rolling Avg: -28236.71 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 50106 
+[  ADULT   ] Ep 220 | Patient: adult#007    | Reward:  -8050.64 | Rolling Avg: -21048.20 | Ep Steps: 204 | Avg SAC Wt: 0.80 | Total Steps: 52587 
+[  ADULT   ] Ep 230 | Patient: adult#002    | Reward: -15923.43 | Rolling Avg: -13497.06 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 55057 
+[  ADULT   ] Ep 240 | Patient: adult#003    | Reward: -16857.62 | Rolling Avg: -18808.79 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 57708 
+[  ADULT   ] Ep 250 | Patient: adult#001    | Reward:  -6270.94 | Rolling Avg: -10405.23 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 60275 
+[  ADULT   ] Ep 260 | Patient: adult#007    | Reward:  -5090.54 | Rolling Avg: -15508.67 | Ep Steps: 173 | Avg SAC Wt: 0.80 | Total Steps: 62862 
+[  ADULT   ] Ep 270 | Patient: adult#009    | Reward:    788.28 | Rolling Avg: -12512.63 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 65656 
+[  ADULT   ] Ep 280 | Patient: adult#006    | Reward: -11234.85 | Rolling Avg:  -6610.78 | Ep Steps: 228 | Avg SAC Wt: 0.80 | Total Steps: 68459 
+[  ADULT   ] Ep 290 | Patient: adult#002    | Reward: -12974.13 | Rolling Avg: -10493.14 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 71304 
+[  ADULT   ] Ep 300 | Patient: adult#010    | Reward:  -1385.94 | Rolling Avg: -11278.76 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 74184 
+[  ADULT   ] Ep 310 | Patient: adult#005    | Reward:     48.41 | Rolling Avg: -10288.95 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 77022 
+[  ADULT   ] Ep 320 | Patient: adult#002    | Reward: -39699.42 | Rolling Avg: -19027.97 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 79857 
+[  ADULT   ] Ep 330 | Patient: adult#005    | Reward:   -764.76 | Rolling Avg: -18691.24 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 82665 
+[  ADULT   ] Ep 340 | Patient: adult#005    | Reward:   5401.04 | Rolling Avg: -11493.53 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 85323 
+[  ADULT   ] Ep 350 | Patient: adult#002    | Reward: -23434.91 | Rolling Avg:  -8870.02 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 88203 
+[  ADULT   ] Ep 360 | Patient: adult#009    | Reward:    -51.64 | Rolling Avg:  -3972.20 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 91083 
+[  ADULT   ] Ep 370 | Patient: adult#003    | Reward:  -6883.25 | Rolling Avg:  -8607.44 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 93963 
+[  ADULT   ] Ep 374 | Patient: adult#009    | Reward:   1622.24 | Rolling Avg:  -2604.87 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 95115  | 🌟 NEW BEST AVG! (+694.09)
+[  ADULT   ] Ep 380 | Patient: adult#003    | Reward: -11047.05 | Rolling Avg:  -4590.12 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 96843 
+[  ADULT   ] Ep 390 | Patient: adult#005    | Reward:  -1641.91 | Rolling Avg:  -8554.89 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 99723 
+[  ADULT   ] Ep 400 | Patient: adult#010    | Reward:  -7320.61 | Rolling Avg: -13511.04 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 102603
+[  ADULT   ] Ep 410 | Patient: adult#004    | Reward:  -7634.80 | Rolling Avg: -12749.35 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 105483
+[  ADULT   ] Ep 420 | Patient: adult#006    | Reward: -17653.74 | Rolling Avg:  -8408.25 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 108363
+[  ADULT   ] Ep 430 | Patient: adult#005    | Reward:    915.35 | Rolling Avg:  -7127.82 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 111204
+[  ADULT   ] Ep 440 | Patient: adult#010    | Reward:  -6897.99 | Rolling Avg:  -7915.67 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 114084
+[  ADULT   ] Ep 450 | Patient: adult#009    | Reward:  -4924.13 | Rolling Avg: -10321.99 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 116893
+[  ADULT   ] Ep 460 | Patient: adult#009    | Reward:    490.31 | Rolling Avg:  -8536.67 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 119759
+[  ADULT   ] Ep 470 | Patient: adult#009    | Reward:     10.10 | Rolling Avg:  -9861.18 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 122639
+[  ADULT   ] Ep 480 | Patient: adult#007    | Reward: -48889.53 | Rolling Avg: -18088.66 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 125519
+[  ADULT   ] Ep 490 | Patient: adult#004    | Reward:  -9754.88 | Rolling Avg:  -5871.59 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 128399
+[  ADULT   ] Ep 500 | Patient: adult#008    | Reward: -18955.13 | Rolling Avg: -10041.19 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 131279
+[  ADULT   ] Ep 510 | Patient: adult#004    | Reward: -14024.51 | Rolling Avg:  -7243.93 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 134159
+[  ADULT   ] Ep 520 | Patient: adult#007    | Reward: -24973.07 | Rolling Avg: -12077.77 | Ep Steps: 219 | Avg SAC Wt: 0.80 | Total Steps: 136942
+[  ADULT   ] Ep 530 | Patient: adult#007    | Reward: -52323.48 | Rolling Avg: -17822.59 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 139822
+[  ADULT   ] Ep 540 | Patient: adult#003    | Reward:  -8276.41 | Rolling Avg:  -7179.05 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 142702
+[  ADULT   ] Ep 550 | Patient: adult#009    | Reward:  -1062.74 | Rolling Avg:  -9778.82 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 145564
+[  ADULT   ] Ep 560 | Patient: adult#004    | Reward:  -9686.00 | Rolling Avg:  -6972.30 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 148444
+[  ADULT   ] Ep 566 | Patient: adult#005    | Reward:   7875.75 | Rolling Avg:  -1941.98 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 150172 | 🌟 NEW BEST AVG! (+662.89)
+[  ADULT   ] Ep 570 | Patient: adult#002    | Reward:   4570.10 | Rolling Avg:  -4484.42 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 151324
+[  ADULT   ] Ep 580 | Patient: adult#006    | Reward: -17218.50 | Rolling Avg: -14581.63 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 154059
+[  ADULT   ] Ep 590 | Patient: adult#010    | Reward:  -9018.64 | Rolling Avg: -14821.89 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 156939
+[  ADULT   ] Ep 600 | Patient: adult#010    | Reward:  -4488.45 | Rolling Avg:  -8887.51 | Ep Steps: 288 | Avg SAC Wt: 0.80 | Total Steps: 159819
+
+======================================================================
+Training Complete! Final model saved to ./models/trainable_ensemble_adult/model_final.pth
+======================================================================
+/kaggle/working/Hruthik/using_gymnasium# python test_trainable_ensemble.py --cohort adult
+usage: test_trainable_ensemble.py [-h] --cohort {child,adolescent,adult} --model_path MODEL_PATH [--seed SEED]
+test_trainable_ensemble.py: error: the following arguments are required: --model_path
+/kaggle/working/Hruthik/using_gymnasium# python test_trainable_ensemble.py --cohort adult --model_path ./models/trainable_ensemble_adult/best_model.pth
+
+======================================================================
+EVALUATING CLINICAL META-CONTROLLER ON ADULT COHORT
+Model Path: ./models/trainable_ensemble_adult/best_model.pth
+======================================================================
+
+Evaluating Patient: adult#001...
+Evaluating Patient: adult#002...
+Evaluating Patient: adult#003...
+Evaluating Patient: adult#004...
+Evaluating Patient: adult#005...
+Evaluating Patient: adult#006...
+Evaluating Patient: adult#007...
+Evaluating Patient: adult#008...
+Evaluating Patient: adult#009...
+Evaluating Patient: adult#010...
+
+======================================================================
+EVALUATION COMPLETE
+======================================================================
+  Patient  TIR (%)  Hypo (%)  Severe Hypo (%)  Hyper (%)    Mean BG  Avg SAC Wt
+adult#001    57.09     32.53            25.61      10.38 106.019997         0.8
+adult#002    66.09      9.00             0.00      24.91 146.350006         0.8
+adult#003    13.84      0.00             0.00      86.16 285.970001         0.8
+adult#004    17.99      0.00             0.00      82.01 323.049988         0.8
+adult#005    57.44      0.00             0.00      42.56 186.949997         0.8
+adult#006    34.55      0.00             0.00      65.45 274.730011         0.8
+adult#007    42.56     25.61            19.72      31.83 157.250000         0.8
+adult#008    47.40      6.57             4.50      46.02 177.619995         0.8
+adult#009    41.18      0.00             0.00      58.82 264.290009         0.8
+adult#010    26.30      0.00             0.00      73.70 284.320007         0.8
+
+----------------------------------------------------------------------
+🎯 COHORT AVERAGES (ADULT):
+----------------------------------------------------------------------
+TIR (70-180)  : 40.44 %
+Hypo (<70)    : 7.37 %
+Sev. Hypo (<54): 4.98 %
+Hyper (>180)  : 52.18 %
+Mean BG       : 220.65 mg/dL
+Avg SAC Wt    : 0.80
+----------------------------------------------------------------------
+
+Plots and summary saved to: ./results/eval_meta_ensemble_adult
+/kaggle/working/Hruthik/using_gymnasium# python test_trainable_ensemble.py --cohort adult --model_path ./models/trainable_ensemble_adult/model_final.pth
+
+======================================================================
+EVALUATING CLINICAL META-CONTROLLER ON ADULT COHORT
+Model Path: ./models/trainable_ensemble_adult/model_final.pth
+======================================================================
+
+Evaluating Patient: adult#001...
+Evaluating Patient: adult#002...
+Evaluating Patient: adult#003...
+Evaluating Patient: adult#004...
+Evaluating Patient: adult#005...
+Evaluating Patient: adult#006...
+Evaluating Patient: adult#007...
+Evaluating Patient: adult#008...
+Evaluating Patient: adult#009...
+Evaluating Patient: adult#010...
+
+======================================================================
+EVALUATION COMPLETE
+======================================================================
+  Patient  TIR (%)  Hypo (%)  Severe Hypo (%)  Hyper (%)    Mean BG  Avg SAC Wt
+adult#001    59.52     29.41            24.22      11.07 105.180000         0.8
+adult#002    85.12      5.88             2.77       9.00 126.089996         0.8
+adult#003    28.03      0.00             0.00      71.97 231.630005         0.8
+adult#004    18.28      0.00             0.00      81.72 293.820007         0.8
+adult#005    56.75      0.00             0.00      43.25 183.690002         0.8
+adult#006    25.95      0.00             0.00      74.05 320.410004         0.8
+adult#007    48.10     27.68            13.49      24.22 126.129997         0.8
+adult#008    28.72      0.00             0.00      71.28 215.199997         0.8
+adult#009    40.83      0.00             0.00      59.17 259.829987         0.8
+adult#010    28.03      0.00             0.00      71.97 271.769989         0.8
+
+----------------------------------------------------------------------
+🎯 COHORT AVERAGES (ADULT):
+----------------------------------------------------------------------
+TIR (70-180)  : 41.93 %
+Hypo (<70)    : 6.30 %
+Sev. Hypo (<54): 4.05 %
+Hyper (>180)  : 51.77 %
+Mean BG       : 213.37 mg/dL
+Avg SAC Wt    : 0.80
+----------------------------------------------------------------------
+
+Plots and summary saved to: ./results/eval_meta_ensemble_adult
+/kaggle/working/Hruthik/using_gymnasium# 

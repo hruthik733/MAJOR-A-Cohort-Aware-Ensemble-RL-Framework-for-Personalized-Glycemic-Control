@@ -103,25 +103,21 @@ def evaluate_trainable_ensemble(args):
             
             # --- FINAL TUNED EXTENDED BOLUS LIMITS ---
             if args.cohort == 'child':
-                clinical_max = 0.4      
+                clinical_max = 0.3      
             elif args.cohort == 'adolescent':
-                clinical_max = 1.0      # Slightly raised to handle spikes
+                clinical_max = 0.75      # Slightly raised to handle spikes
             else:
-                clinical_max = 3.0       # Raised to fix Adult Hyperglycemia
+                clinical_max = 2.0       # Raised to fix Adult Hyperglycemia
                 
             normalized_action = (action[0] + 1.0) / 2.0 
             
-            # if args.cohort == 'adult':
-            #     # Linear math for adults so they get the full dose they ask for
-            #     insulin_dose = np.array([normalized_action * clinical_max])
-            # else:
-            #     # Squared math for precise micro-dosing in kids/teens
-            #     insulin_dose = np.array([(normalized_action ** 2) * clinical_max])
+            if args.cohort == 'adult':
+                # Linear math for adults so they get the full dose they ask for
+                insulin_dose = np.array([normalized_action * clinical_max])
+            else:
+                # Squared math for precise micro-dosing in kids/teens
+                insulin_dose = np.array([(normalized_action ** 2) * clinical_max])
 
-            # Universal Linear Math: 50% effort = 50% dose. 
-            # No more squashing the agent's output!
-            insulin_dose = np.array([normalized_action * clinical_max])
-            
             safe_action = safety_layer.apply(insulin_dose, u_state)
             
             manager.insulin_history.append(safe_action[0])
@@ -145,24 +141,21 @@ def evaluate_trainable_ensemble(args):
             
             # --- FINAL TUNED EXTENDED BOLUS LIMITS ---
             if args.cohort == 'child':
-                clinical_max = 0.4      
+                clinical_max = 0.3     
             elif args.cohort == 'adolescent':
-                clinical_max = 1.0      # Slightly raised from 0.5 
+                clinical_max = 0.75      # Slightly raised from 0.5 
             else:
-                clinical_max = 3.0       # Raised from 1.0 to fix Adult Hyperglycemia
+                clinical_max = 2.0       # Raised from 1.0 to fix Adult Hyperglycemia
                 
             normalized_action = (action[0] + 1.0) / 2.0  # Use action[0] in test script
             
-            # # For adults, we remove the squaring math so they get linear, powerful boluses
-            # if args.cohort == 'adult':
-            #     insulin_dose = np.array([normalized_action * clinical_max])
-            # else:
-            #     # Children and Adolescents keep the squared math for micro-dosing precision
-            #     insulin_dose = np.array([(normalized_action ** 2) * clinical_max])
+            # For adults, we remove the squaring math so they get linear, powerful boluses
+            if args.cohort == 'adult':
+                insulin_dose = np.array([normalized_action * clinical_max])
+            else:
+                # Children and Adolescents keep the squared math for micro-dosing precision
+                insulin_dose = np.array([(normalized_action ** 2) * clinical_max])
 
-            # Universal Linear Math: 50% effort = 50% dose. 
-            # No more squashing the agent's output!
-            insulin_dose = np.array([normalized_action * clinical_max])
             
             safe_action = safety_layer.apply(insulin_dose, unnormalized_state)
             

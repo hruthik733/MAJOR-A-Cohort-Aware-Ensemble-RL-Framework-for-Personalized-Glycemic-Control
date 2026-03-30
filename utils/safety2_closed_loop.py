@@ -9,9 +9,9 @@ class SafetyLayer:
 
         # FINAL TUNED IOB LIMITS (Active Insulin)
         if self.cohort == 'child':
-            self.max_safe_iob = 2.0       # Tightened from 1.5
+            self.max_safe_iob = 1.0       # Tightened from 1.5
         elif self.cohort == 'adolescent':
-            self.max_safe_iob = 4.0       # Tightened from 3.0
+            self.max_safe_iob = 2.0       # Tightened from 3.0
         else:
             self.max_safe_iob = 6.0       # Kept high for adults to fix Hyperglycemia
 
