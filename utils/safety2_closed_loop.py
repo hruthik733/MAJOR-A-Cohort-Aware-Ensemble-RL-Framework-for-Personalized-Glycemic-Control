@@ -13,7 +13,7 @@ class SafetyLayer:
         elif self.cohort == 'adolescent':
             self.max_safe_iob = 2.0       # Tightened from 3.0
         else:
-            self.max_safe_iob = 6.0       # Kept high for adults to fix Hyperglycemia
+            self.max_safe_iob = 4.0       # Kept high for adults to fix Hyperglycemia
 
     def apply(self, action, state):
         glucose, rate_of_change, iob, bw = state

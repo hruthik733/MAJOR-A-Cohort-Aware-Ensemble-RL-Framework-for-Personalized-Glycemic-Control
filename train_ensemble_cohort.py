@@ -113,7 +113,7 @@ def train_ensemble(args):
             elif args.cohort == 'adolescent':
                 clinical_max = 0.75      # Slightly raised from 0.5 
             else:
-                clinical_max = 2.0       # Raised from 1.0 to fix Adult Hyperglycemia
+                clinical_max = 1.5       # Raised from 1.0 to fix Adult Hyperglycemia
                 
             normalized_action = (raw_action[0] + 1.0) / 2.0  # Use action[0] in test script
             

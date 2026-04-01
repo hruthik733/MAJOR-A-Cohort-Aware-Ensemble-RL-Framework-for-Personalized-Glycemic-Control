@@ -26,7 +26,7 @@ class MetaController(nn.Module):
         # Squeeze the [0.0, 1.0] output into a [0.2, 0.8] range.
         # This guarantees the agent ALWAYS uses at least 20% of the other network,
         # preventing it from finding a fatal "local optima" of 100% SAC.
-        clamped_weights = 0.2 + (raw_weights * 0.6) 
+        clamped_weights = 0.1 + (raw_weights * 0.8) 
         return clamped_weights
 
 class EnsembleAgent:
