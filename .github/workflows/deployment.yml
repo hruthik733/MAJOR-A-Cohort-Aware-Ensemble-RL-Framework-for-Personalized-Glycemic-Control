@@ -1,0 +1,15 @@
+name: Register HF Deployment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: Production (GlucoRL Insulin Predictor)
+      url: https://huggingface.co/spaces/hruthik733/glucorl-insulin-predictor
+
+    steps:
+      - name: Register deployment
+        run: echo "HF Space linked as deployment"
