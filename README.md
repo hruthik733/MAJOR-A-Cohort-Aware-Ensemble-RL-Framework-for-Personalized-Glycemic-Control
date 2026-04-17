@@ -464,7 +464,7 @@ python test_ensemble_cohort.py \
     --model_path ./models/trainable_ensemble_adult/best_model.pth \
     --seed 100
 ```
-
+ 
 Output is saved to `./results/eval_ensemble_<cohort>/`:
 - `ensemble_evaluation_summary.csv` — per-patient clinical metrics
 - `plot_<patient_name>.png` — dual-axis glucose + insulin trace
