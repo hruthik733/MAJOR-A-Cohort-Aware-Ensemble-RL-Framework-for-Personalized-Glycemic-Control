@@ -35,42 +35,52 @@ This project implements a **Personalized Closed-Loop Artificial Pancreas** syste
 
 ## System Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                    PERSONALIZED AP SYSTEM                           │
-│                                                                     │
-│  ┌──────────────┐    ┌──────────────────────────────────────────┐   │
-│  │  simglucose  │    │           ENSEMBLE AGENT                 │   │
-│  │  Simulator   │    │  ┌────────────┐    ┌────────────────┐    │   │
-│  │              │◄───┤  │ SAC Agent  │    │   TD3 Agent    │    │   │
-│  │  T1D Patient │    │  │ (Stochastic│    │(Deterministic) │    │   │
-│  │  + Realistic │    │  │  Policy)   │    │                │    │   │
-│  │  Meal Scen.  │    │  └─────┬──────┘    └───────┬────────┘    │   │
-│  └──────┬───────┘    │        │  action_sac  action_td3 │       │   │
-│         │            │        └──────────┬───────────────┘       │   │
-│   obs   │            │               ┌───▼──────────────┐        │   │
-│ (glucose│            │               │  Meta-Controller │        │   │
-│  mg/dL) │            │               │  (learns weights │        │   │
-│         │            │               │   w_sac, w_td3)  │        │   │
-│         │            │               └────────┬─────────┘        │   │
-│         │            │                        │ blended action    │   │
-│         │            └────────────────────────┼──────────────────┘   │
-│         │                                     │                      │
-│         │         ┌───────────────────────┐   │                      │
-│         │         │    State Manager      │   │                      │
-│         ├────────►│ [glucose, RoC, IOB,   │   │                      │
-│         │         │  body_weight]         │   │                      │
-│         │         └──────────┬────────────┘   │                      │
-│         │                    │ 4D state        │                      │
-│         │         ┌──────────▼────────────┐   │                      │
-│         │         │    Safety Layer       │◄──┘                      │
-│         │         │  (cohort-aware rules) │                          │
-│         │         └──────────┬────────────┘                          │
-│         │                    │ safe insulin dose                     │
-│         └────────────────────┘                                       │
-└─────────────────────────────────────────────────────────────────────┘
-```
+```mermaid
+flowchart TB
 
+    %% Main Components
+    SIM["simglucose Simulator<br/>T1D Patient + Meal Scenario"]
+
+    STATE["State Manager<br/>[glucose, RoC, IOB, body_weight]"]
+
+    SAFETY["Safety Layer<br/>(cohort-aware rules)"]
+
+    SAC["SAC Agent<br/>(stochastic policy)"]
+    TD3["TD3 Agent<br/>(deterministic policy)"]
+
+    META["Meta-Controller<br/>learns w_sac & w_td3"]
+
+    ENS["Blended Action<br/>a_ens"]
+
+    OUT["Safe Insulin Dose"]
+
+    %% Connections
+    SIM --> STATE
+
+    STATE --> SAC
+    STATE --> TD3
+    STATE --> META
+
+    SAC --> ENS
+    TD3 --> ENS
+    META --> ENS
+
+    ENS --> SAFETY
+    SAFETY --> OUT
+
+    OUT --> SIM
+
+    %% Styling
+    classDef sim fill:#E6F0FF,stroke:#3366CC,stroke-width:2px;
+    classDef agent fill:#E6FFE6,stroke:#009933,stroke-width:2px;
+    classDef meta fill:#FFF4CC,stroke:#E6A700,stroke-width:2px;
+    classDef safety fill:#FFE5E5,stroke:#CC0000,stroke-width:2px;
+
+    class SIM,STATE sim;
+    class SAC,TD3,ENS agent;
+    class META meta;
+    class SAFETY,OUT safety;
+```
 ---
 
 ## Overall Workflow Diagram
@@ -230,29 +240,42 @@ States are **online-normalized** using a running mean/std (Welford's algorithm) 
 
 ### Ensemble Agent (Meta-Controller)
 
-```
-              ┌──────────────────────────────────────┐
- 4D State ───►│         EnsembleAgent                │
-              │                                      │
-              │  ┌─────────────┐  ┌───────────────┐  │
-              │  │ SAC Actor   │  │  TD3 Actor    │  │
-              │  │ (stochastic)│  │(deterministic)│  │
-              │  └──────┬──────┘  └───────┬───────┘  │
-              │   a_sac │           a_td3 │           │
-              │         └────────┬────────┘           │
-              │                  │                    │
-              │  ┌───────────────▼──────────────────┐ │
-              │  │      MetaController               │ │
-              │  │  Linear(4→64) → ReLU              │ │
-              │  │  Linear(64→2) → Softmax → Clamp   │ │
-              │  │  weights ∈ [0.2, 0.8]             │ │
-              │  └───────────────┬──────────────────┘ │
-              │            [w_sac, w_td3]              │
-              │                  │                    │
-              │   a_ens = w_sac·a_sac + w_td3·a_td3   │
-              └──────────────────┬───────────────────┘
-                                 │
-                           final action
+```mermaid
+flowchart TB
+
+    S["4D State<br/>[glucose, RoC, IOB, body_weight]"]
+
+    SAC["SAC Actor<br/>(stochastic policy)"]
+    TD3["TD3 Actor<br/>(deterministic policy)"]
+
+    META["MetaController<br/>
+    Linear(4→64) → ReLU<br/>
+    Linear(64→2) → Softmax<br/>
+    Clamp weights ∈ [0.2,0.8]"]
+
+    ENS["a_ens = w_sac·a_sac + w_td3·a_td3"]
+
+    OUT["Final Action"]
+
+    S --> SAC
+    S --> TD3
+    S --> META
+
+    SAC --> ENS
+    TD3 --> ENS
+    META --> ENS
+
+    ENS --> OUT
+
+    classDef state fill:#E6F0FF,stroke:#3366CC,stroke-width:2px;
+    classDef agent fill:#E6FFE6,stroke:#009933,stroke-width:2px;
+    classDef meta fill:#FFF4CC,stroke:#E6A700,stroke-width:2px;
+    classDef out fill:#FFE5E5,stroke:#CC0000,stroke-width:2px;
+
+    class S state;
+    class SAC,TD3,ENS agent;
+    class META meta;
+    class OUT out;
 ```
 
 **Meta-Controller Training:**
