@@ -34,53 +34,59 @@ This project implements a **Personalized Closed-Loop Artificial Pancreas** syste
 ---
 
 ## System Architecture
-
-```mermaid
 flowchart TB
 
-    %% Main Components
-    SIM["simglucose Simulator<br/>T1D Patient + Meal Scenario"]
+    %% Nodes
+    S["4D State<br/>[glucose, RoC, IOB, body_weight]"]
 
-    STATE["State Manager<br/>[glucose, RoC, IOB, body_weight]"]
+    SAC["SAC Actor<br/>(stochastic policy)"]
+    TD3["TD3 Actor<br/>(deterministic policy)"]
 
-    SAFETY["Safety Layer<br/>(cohort-aware rules)"]
+    META["MetaController<br/>
+    Linear(4→64) → ReLU<br/>
+    Linear(64→2) → Softmax<br/>
+    → Clamp<br/>
+    weights ∈ [0.2, 0.8]"]
 
-    SAC["SAC Agent<br/>(stochastic policy)"]
-    TD3["TD3 Agent<br/>(deterministic policy)"]
+    ENS["a_ens = w_sac · a_sac +<br/>w_td3 · a_td3"]
 
-    META["Meta-Controller<br/>learns w_sac & w_td3"]
+    OUT["Final Action"]
 
-    ENS["Blended Action<br/>a_ens"]
+    %% Flow
+    S --> SAC
+    S --> TD3
+    S --> META
 
-    OUT["Safe Insulin Dose"]
+    SAC -- "a_sac" --> META
+    TD3 -- "a_td3" --> META
 
-    %% Connections
-    SIM --> STATE
+    SAC -- "a_sac" --> ENS
+    TD3 -- "a_td3" --> ENS
 
-    STATE --> SAC
-    STATE --> TD3
-    STATE --> META
+    META -- "[w_sac, w_td3]" --> ENS
+    ENS --> OUT
 
-    SAC --> ENS
-    TD3 --> ENS
-    META --> ENS
+    %% Styles
+    classDef state fill:#E6F0FF,stroke:#3366CC,stroke-width:2px,color:#000;
+    classDef agent fill:#E6F0FF,stroke:#0055CC,stroke-width:2px,color:#000;
+    classDef meta fill:#FFF4CC,stroke:#E6A700,stroke-width:2px,color:#000;
+    classDef calc fill:#E6FFE6,stroke:#009933,stroke-width:2px,color:#000;
+    classDef output fill:#FFE5E5,stroke:#CC0000,stroke-width:2px,color:#000;
 
-    ENS --> SAFETY
-    SAFETY --> OUT
-
-    OUT --> SIM
-
-    %% Styling
-    classDef sim fill:#E6F0FF,stroke:#3366CC,stroke-width:2px;
-    classDef agent fill:#E6FFE6,stroke:#009933,stroke-width:2px;
-    classDef meta fill:#FFF4CC,stroke:#E6A700,stroke-width:2px;
-    classDef safety fill:#FFE5E5,stroke:#CC0000,stroke-width:2px;
-
-    class SIM,STATE sim;
-    class SAC,TD3,ENS agent;
+    %% Assign classes
+    class S state;
+    class SAC,TD3 agent;
     class META meta;
-    class SAFETY,OUT safety;
-```
+    class ENS calc;
+    class OUT output;
+
+    %% Link colors
+    linkStyle 0,1,2 stroke:#3366CC,stroke-width:2px;
+    linkStyle 3,4 stroke:#0055CC,stroke-width:2px;
+    linkStyle 5,6 stroke:#0055CC,stroke-width:2px;
+    linkStyle 7 stroke:#E6A700,stroke-width:2px;
+    linkStyle 8 stroke:#009933,stroke-width:2px;
+
 ---
 
 ## Overall Workflow Diagram
