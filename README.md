@@ -34,6 +34,8 @@ This project implements a **Personalized Closed-Loop Artificial Pancreas** syste
 ---
 
 ## System Architecture
+
+```mermaid
 flowchart TB
 
     %% Nodes
